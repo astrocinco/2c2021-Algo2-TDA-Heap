@@ -49,3 +49,4 @@ void *heap_ver_max(const heap_t *heap){
 void heap_destruir(heap_t *heap, void (*destruir_elemento)(void *e)){
 
 }
+// FIN PRIMITIVAS HEAP
