@@ -6,31 +6,72 @@
 
 void pruebas_heap_vacio(){
     printf("\nPRUEBAS HEAP: x\n");
+
+    // Crear
+    // Cantidad == 0
+    // Intento sacar == NULL
+    // Destruir
 }
 
 
 void pruebas_heap_un_elemento(){
     printf("\nPRUEBAS HEAP: x\n");
+
+    // Crear
+    // Insertar
+    // Obtener
+    // Cantidad == 1
+    // Borrar
+    // Destruir
 }
 
 
 void pruebas_heap_copiar_arreglo(){
     printf("\nPRUEBAS HEAP: x\n");
+
+    // Crear con _copiar arreglo_
+    // Revisar que el arreglo ahora tiene el orden correcto
+    // Retorna maximo correcto
+    // Cantidad == len(arreglo)
+    // Borrar
+    // Obtener
+    // Destruir
 }
 
 
 void pruebas_heapsort(){
     printf("\nPRUEBAS HEAP: x\n");
+
+    // Ingresar arreglo y recibir "arreglo_ordenado"
+    // REvisar que arreglo ordenado esté bien ordenado
+    // Revisar que ambos punteros son los mismos, es in-place (REVISAR CONCEPTO)
+    // Destruir
 }
 
 
 void pruebas_heap_destruir_NULL(){
     printf("\nPRUEBAS HEAP: x\n");
+
+    // Crear 
+    // Insertar elemento de memoria estatica
+    // Destruir
+
+    // Crear 
+    // Insertar varios elementoa de memoria estatica
+    // Destruir
 }
 
 
 void pruebas_heap_destruir_NONULL(){
     printf("\nPRUEBAS HEAP: x\n");
+
+    // Crear 
+    // Insertar elemento de memoria dinamica
+    // Destruir
+
+    // Crear 
+    // Insertar varios elementoa de memoria dinamica
+    // Destruir
 }
 
 
