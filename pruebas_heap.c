@@ -4,9 +4,18 @@
 #include <string.h>
 #include "heap.h"
 
+
+int aux_num_es_mayor(size_t num1, size_t num2){
+    if (num1 > num2) return 1;
+    return -1;
+}
+
+
 void pruebas_heap_vacio(){
     printf("\nPRUEBAS HEAP: x\n");
-
+    heap_t* heap = heap_crear(aux_num_es_mayor);
+    debug_heap(heap);
+    heap_destruir(heap, NULL);
     // Crear
     // Cantidad == 0
     // Intento sacar == NULL

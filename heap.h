@@ -4,6 +4,7 @@
 #include <stdbool.h>  // bool
 #include <stddef.h>   // size_t
 
+
 /* Prototipo de función de comparación que se le pasa como parámetro a las
  * diversas funciones del heap.
  * Debe recibir dos punteros del tipo de dato utilizado en el heap, y
@@ -32,6 +33,9 @@ void heap_sort(void *elementos[], size_t cant, cmp_func_t cmp);
 
 /* Tipo utilizado para el heap. */
 typedef struct heap heap_t;
+
+// FUNCION DE DEBUGGING
+void debug_heap(const heap_t* heap);
 
 /* Crea un heap. Recibe como único parámetro la función de comparación a
  * utilizar. Devuelve un puntero al heap, el cual debe ser destruido con
