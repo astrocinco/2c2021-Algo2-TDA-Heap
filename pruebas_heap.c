@@ -3,6 +3,7 @@
 #include "testing.h"
 #include <string.h>
 #include "heap.h"
+#include "pila.h"
 
 
 int aux_num_es_mayor(size_t num1, size_t num2){
@@ -20,24 +21,34 @@ void pruebas_heap_vacio(){
     void* sacado = heap_desencolar(heap);
     print_test("Sale NULL del heap vacío", sacado == NULL);
 
+    printf("Aux num %d\n", aux_num_es_mayor(10, 8));
+
     heap_destruir(heap, NULL);
 }
 
 
 void pruebas_heap_un_elemento(){
     printf("\nPRUEBAS HEAP: Un elemento\n");
+    char* letra_1 = "A";
+    heap_t* heap = heap_crear(strcmp);
 
-    // Crear
-    // Insertar
-    // Obtener
-    // Cantidad == 1
-    // Borrar
-    // Destruir
+    print_test("El heap está vacío", heap_esta_vacio(heap));
+    print_test("Puedo encolar A", heap_encolar(heap, letra_1));
+    print_test("La cantidad es 1", heap_cantidad(heap) == 1);
+    debug_heap(heap);
+    char* sacado = heap_desencolar(heap);
+    print_test("Sale 'A'", strcmp(letra_1, sacado));
+
+    heap_destruir(heap, NULL);
 }
 
 
 void pruebas_heap_copiar_arreglo(){
     printf("\nPRUEBAS HEAP: Copiar arreglo\n");
+    int arreglo_ints[10] = {3, 5, 4, 0, 1, 2};
+    heap_t* heap = heap_crear_arr(arreglo_ints, 10, aux_num_es_mayor);
+
+    print_test("La cantidad es 1", heap_cantidad(heap) == 6);
 
     // Crear con _copiar arreglo_
     // Revisar que el arreglo ahora tiene el orden correcto
