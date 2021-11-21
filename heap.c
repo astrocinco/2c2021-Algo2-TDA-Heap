@@ -7,6 +7,7 @@
 #include "heap.h"
 
 #define CAP_INIC 50ul
+#define FACTOR_NVA_CAP 2ul
 
 // Funcion de algoritmo de ordenamiento heap_sort. No es parte del TDA-Heap
 void heap_sort(void *elementos[], size_t cant, cmp_func_t cmp){
@@ -38,6 +39,35 @@ heap_t *heap_crear(cmp_func_t cmp){
     return nuevo_heap;
 }
 
+// Función auxiliar que retorna true si el primer valor es mayor que el segundo.
+bool aux_cumple_heap(heap_t* heap, size_t posicion1, size_t posicion2){
+    if (posicion1 == posicion2) return true;
+    void* elem_pos1 = heap->datos[posicion1];
+    void* elem_pos2 = heap->datos[posicion2];
+
+    cmp_func_t funcion_cmp = heap->cmp;
+    int resultado = funcion_cmp(elem_pos1, elem_pos2);
+
+    return (resultado > 0);
+}
+
+
+// Funcion auxiliar de swap. Recibe punteros (llamar con &)
+bool aux_swap_generico(void* x, void* y) { // <---------------------------------------------------- Testear
+    void* aux = malloc(sizeof(void*));
+    if (aux == NULL) return false;
+
+    memcpy(aux, x, sizeof(void*));
+    memcpy(x, y, sizeof(void*));
+    memcpy(y, aux, sizeof(void*));
+    return true;
+}
+
+
+void aux_upheap(){
+    // HACER
+}
+
 
 // Funcion auxiliar para ordenar los arreglos para que cumplan las condiciones del heap
 void NOMBRE_FUNC_AUX_ORDENAR(heap_t* heap){
@@ -46,8 +76,8 @@ void NOMBRE_FUNC_AUX_ORDENAR(heap_t* heap){
 }
 
 // Función auxiliar de heap_guardar y heap_borrar
-void NOMBRE_FUNC_AUX_REDIMENSIONAR(heap_t* heap, size_t nueva_cap){
-    // DEFINIR NOMBRE
+void aux_redimensionar(heap_t* heap, size_t nueva_cap){
+    // Revisar nueva cap >= CAP_INIC
     // ESTA FUNCION CAMBIA LA CAPACIDAD DEL ARREGLO DEL HEAP
     heap->tam = nueva_cap;
 }
@@ -74,9 +104,17 @@ size_t heap_cantidad(const heap_t *heap){
 }
 
 bool heap_encolar(heap_t *heap, void *elem){
+    heap->datos[heap->cant] = elem;
+    size_t pos_nuevo = heap->cant;
+    size_t pos_padre = (pos_nuevo -1) / 2;
+
+    if (!cumple_heap(heap, pos_padre, pos_nuevo)){
+        aux_upheap();
+    }
     // Insertar elemento en arreglo
     // Reordenar para que cumpla con condiciones de heap -- HACER FUNCION AUX --
     heap->cant++;
+    if (heap->cant == heap->tam) aux_redimensionar(heap, heap->tam * FACTOR_NVA_CAP);
     // Revisar que no haya que redimensionar -- HACER FUNCION AUX --
     return true; // ¿Return false si no se pudo redimensionar? Habría que redimensionar antes de guardar?
 }
