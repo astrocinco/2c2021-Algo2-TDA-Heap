@@ -12,19 +12,20 @@ int aux_num_es_mayor(size_t num1, size_t num2){
 
 
 void pruebas_heap_vacio(){
-    printf("\nPRUEBAS HEAP: x\n");
+    printf("\nPRUEBAS HEAP: Vacío\n");
     heap_t* heap = heap_crear(aux_num_es_mayor);
-    debug_heap(heap);
+
+    print_test("La cantidad es 0", heap_cantidad(heap) == 0);
+    print_test("El heap está vacío", heap_esta_vacio(heap));
+    void* sacado = heap_desencolar(heap);
+    print_test("Sale NULL del heap vacío", sacado == NULL);
+
     heap_destruir(heap, NULL);
-    // Crear
-    // Cantidad == 0
-    // Intento sacar == NULL
-    // Destruir
 }
 
 
 void pruebas_heap_un_elemento(){
-    printf("\nPRUEBAS HEAP: x\n");
+    printf("\nPRUEBAS HEAP: Un elemento\n");
 
     // Crear
     // Insertar
@@ -36,7 +37,7 @@ void pruebas_heap_un_elemento(){
 
 
 void pruebas_heap_copiar_arreglo(){
-    printf("\nPRUEBAS HEAP: x\n");
+    printf("\nPRUEBAS HEAP: Copiar arreglo\n");
 
     // Crear con _copiar arreglo_
     // Revisar que el arreglo ahora tiene el orden correcto
@@ -49,7 +50,7 @@ void pruebas_heap_copiar_arreglo(){
 
 
 void pruebas_heapsort(){
-    printf("\nPRUEBAS HEAP: x\n");
+    printf("\nPRUEBAS HEAP: Heapsort\n");
 
     // Ingresar arreglo y recibir "arreglo_ordenado"
     // REvisar que arreglo ordenado esté bien ordenado
@@ -59,7 +60,7 @@ void pruebas_heapsort(){
 
 
 void pruebas_heap_destruir_NULL(){
-    printf("\nPRUEBAS HEAP: x\n");
+    printf("\nPRUEBAS HEAP: Destruir con NULL\n");
 
     // Crear 
     // Insertar elemento de memoria estatica
@@ -72,7 +73,7 @@ void pruebas_heap_destruir_NULL(){
 
 
 void pruebas_heap_destruir_NONULL(){
-    printf("\nPRUEBAS HEAP: x\n");
+    printf("\nPRUEBAS HEAP: Destruir con NO NULL\n");
 
     // Crear 
     // Insertar elemento de memoria dinamica
@@ -84,8 +85,8 @@ void pruebas_heap_destruir_NONULL(){
 }
 
 
-void pruebas_heap_volumen(){
-    printf("\nPRUEBAS HEAP: x\n");
+void pruebas_heap_volumen(size_t volumen){
+    printf("\nPRUEBAS HEAP: Volumen\n");
 }
 
 // Llama a cada prueba
@@ -94,9 +95,10 @@ void pruebas_abb_estudiante(){
     pruebas_heap_un_elemento();
     pruebas_heap_copiar_arreglo();
     pruebas_heapsort();
-    pruebas_heap_volumen();
     pruebas_heap_destruir_NULL();
     pruebas_heap_destruir_NONULL();
+    pruebas_heap_volumen(1000);
+    pruebas_heap_volumen(100000);
 }
 
 #ifndef CORRECTOR // Para que no dé conflicto con el main() del corrector.

@@ -142,8 +142,8 @@ bool heap_encolar(heap_t *heap, void *elem){
 
 void *heap_desencolar(heap_t *heap){
     if (heap->cant == 0) return NULL;
-    void* dato_a_retornar; // = GUARDAR DATO
-    // ? Sacar de arreglo
+    void* dato_a_retornar = heap_ver_max(heap);
+    heap->datos[0] = NULL; // ESTA ES LA SOLUCION PARA BORRAR?
     // Reordenar para que cumpla con condiciones de heap -- HACER FUNCION AUX --
     heap->cant--;
     if (heap->cant == heap->tam / FACTOR_CARGA_MINIMA) aux_redimensionar(heap, heap->tam / FACTOR_NVA_CAP);
