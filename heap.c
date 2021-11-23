@@ -55,7 +55,7 @@ heap_t *heap_crear(cmp_func_t cmp){
 
 
 // Función auxiliar que retorna true si el primer valor es mayor que el segundo.
-bool aux_cumple_heap(heap_t* heap, size_t posicion1, size_t posicion2){
+bool aux_es_mayor(heap_t* heap, size_t posicion1, size_t posicion2){
     if (posicion1 == posicion2) return true;
     void* elem_pos1 = heap->datos[posicion1];
     void* elem_pos2 = heap->datos[posicion2];
@@ -75,17 +75,40 @@ bool aux_swap_generico(void* x, void* y) { // <---------------------------------
     memcpy(aux, x, sizeof(void*));
     memcpy(x, y, sizeof(void*));
     memcpy(y, aux, sizeof(void*));
+    free(aux);
     return true;
 }
 
 
-void aux_upheap(){
-    // HACER
+// Funcion auxiliar heap_encolar
+// Esta funcion presupone que se sabe que es correcto hacer un unheap
+void aux_upheap(heap_t* heap, size_t pos_padre, size_t pos_inferior){
+    aux_swap_generico(heap->datos[pos_padre], heap->datos[pos_inferior]);
+    pos_inferior = pos_padre;
+    pos_padre = (pos_padre -1) / 2;
+    if (!aux_es_mayor(heap, pos_padre, pos_inferior)){
+        aux_upheap(heap, pos_padre, pos_inferior);
+    }
 }
 
 
-void aux_downheap(){
-    // HACER
+// Funcion auxiliar heap_desencolar
+// Esta funcion presupone que se sabe que es correcto hacer un downheap
+void aux_downheap(heap_t* heap, size_t pos_padre){
+    size_t pos_hijo_izq = (2 * pos_padre) +1;
+    size_t pos_hijo_der = (2 * pos_padre) +2;
+    if (aux_es_mayor(heap, pos_hijo_izq, pos_hijo_der)){
+        aux_swap_generico(heap->datos[pos_padre], heap->datos[pos_hijo_izq]);
+        pos_padre = pos_hijo_izq;
+    }else{
+        aux_swap_generico(heap->datos[pos_padre], heap->datos[pos_hijo_der]);
+        pos_padre = pos_hijo_der;
+    }
+    pos_hijo_izq = (2 * pos_padre) +1;
+    pos_hijo_der = (2 * pos_padre) +2;
+    if (!aux_es_mayor(heap, pos_padre, pos_hijo_izq) || !aux_es_mayor(heap, pos_padre, pos_hijo_der)){ // Revisar
+        aux_downheap(heap, pos_padre);
+    }
 }
 
 
@@ -131,27 +154,32 @@ bool heap_encolar(heap_t *heap, void *elem){
     size_t pos_nuevo = heap->cant;
     size_t pos_padre = (pos_nuevo -1) / 2;
 
-    if (!aux_cumple_heap(heap, pos_padre, pos_nuevo)){
-        aux_upheap();
+    if (!aux_es_mayor(heap, pos_padre, pos_nuevo)){
+        aux_upheap(heap, pos_padre, pos_nuevo);
     }
-    heap->cant++;
+    heap->cant++; // Podría ir más arriba y ser consistente con * (heap_desencolar) ? 
     if (heap->cant == heap->tam) aux_redimensionar(heap, heap->tam * FACTOR_NVA_CAP);
     return true; 
 }
 
 
-void *heap_desencolar(heap_t *heap){
-    if (heap->cant == 0) return NULL;
-    void* dato_a_retornar = heap_ver_max(heap);
-    heap->datos[0] = NULL; // ESTA ES LA SOLUCION PARA BORRAR?
-    // Reordenar para que cumpla con condiciones de heap -- HACER FUNCION AUX --
-    heap->cant--;
-    if (heap->cant == heap->tam / FACTOR_CARGA_MINIMA) aux_redimensionar(heap, heap->tam / FACTOR_NVA_CAP);
-    return dato_a_retornar;
+void* heap_desencolar(heap_t *heap){
+    if (heap_esta_vacio(heap)) return NULL;
+
+    void* dato = heap->datos[0];
+    aux_swap_generico(heap->datos[0], heap->datos[heap->cant -1]);
+    heap->cant--; // *
+    size_t pos_padre = 0;
+    size_t pos_hijo_izq = (2 * pos_padre) +1;
+    size_t pos_hijo_der = (2 * pos_padre) +2;
+    if (!aux_es_mayor(heap, pos_padre, pos_hijo_izq) || !aux_es_mayor(heap, pos_padre, pos_hijo_der)){ // Revisar
+        aux_downheap(heap, pos_padre);
+    }
+    return dato;
 }
 
 
-void *heap_ver_max(const heap_t *heap){
+void* heap_ver_max(const heap_t *heap){
     return heap->datos[0];
 }
 
