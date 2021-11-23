@@ -6,7 +6,9 @@
 
 
 // Retorna 1 si el primer valor es mayor que el segundo
-int aux_num_es_mayor(size_t num1, size_t num2){
+int aux_num_es_mayor(const void* dato1, const void* dato2){
+    size_t num1 = *(size_t*) dato1;
+    size_t num2 = *(size_t*) dato2;
     if (num1 > num2) return 1;
     return -1;
 }
@@ -21,7 +23,9 @@ void pruebas_heap_vacio(){
     void* sacado = heap_desencolar(heap);
     print_test("Sale NULL del heap vacío", sacado == NULL);
 
-    printf("Aux num %d\n", aux_num_es_mayor(10, 8));
+    size_t num1 = 10;
+    size_t num2 = 8;
+    printf("Aux num %d\n", aux_num_es_mayor(&num1, &num2));
 
     heap_destruir(heap, NULL);
 }
@@ -45,8 +49,12 @@ void pruebas_heap_un_elemento(){
 
 void pruebas_heap_copiar_arreglo(){
     printf("\nPRUEBAS HEAP: Copiar arreglo\n");
-    int* arreglo_ints[10] = {3, 5, 4, 0, 1, 2};
-    heap_t* heap = heap_crear_arr(arreglo_ints, 10, aux_num_es_mayor);
+    int arreglo_ints[10] = {3, 5, 4, 0, 1, 2};
+    void* arreglo_p_ints[10];
+    for (int i = 0; i < 10; i++){
+        arreglo_p_ints[i] = &arreglo_ints[i];
+    }
+    heap_t* heap = heap_crear_arr(arreglo_p_ints, 10, aux_num_es_mayor);
 
     print_test("La cantidad es 1", heap_cantidad(heap) == 6);
 
@@ -103,8 +111,8 @@ void pruebas_heap_volumen(size_t volumen){
 // Llama a cada prueba
 void pruebas_abb_estudiante(){
     pruebas_heap_vacio();
-    pruebas_heap_un_elemento();
     /*
+    pruebas_heap_un_elemento();
     pruebas_heap_copiar_arreglo();
     pruebas_heapsort();
     pruebas_heap_destruir_NULL();
