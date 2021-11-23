@@ -65,7 +65,7 @@ bool aux_es_mayor(heap_t* heap, size_t posicion1, size_t posicion2){
 
 
 // Funcion auxiliar de swap. Recibe punteros (llamar con &)
-bool aux_swap_generico(void* x, void* y) { // <---------------------------------------------------- Testear
+bool aux_swap_generico(void* x, void* y) {
     void* aux = malloc(sizeof(void*));
     if (aux == NULL) return false;
 
@@ -80,7 +80,7 @@ bool aux_swap_generico(void* x, void* y) { // <---------------------------------
 // Funcion auxiliar heap_encolar
 // Esta funcion presupone que se sabe que es correcto hacer un unheap
 void aux_upheap(heap_t* heap, size_t pos_padre, size_t pos_inferior){
-    printf("UPHEAP\n");
+    //printf("UPHEAP\n");
     aux_swap_generico(&heap->datos[pos_padre], &heap->datos[pos_inferior]);
     if (pos_padre == 0) return;
     pos_inferior = pos_padre;
@@ -186,7 +186,7 @@ bool heap_encolar(heap_t *heap, void *elem){
     size_t pos_padre = (pos_nuevo -1) / 2;
 
     if (!aux_es_mayor(heap, pos_padre, pos_nuevo)){
-        printf("Mando a UPHEAP\n");
+        //printf("Mando a UPHEAP\n");
         aux_upheap(heap, pos_padre, pos_nuevo);
     }
     if (heap->cant == heap->tam) aux_redimensionar(heap, heap->tam * FACTOR_NVA_CAP);

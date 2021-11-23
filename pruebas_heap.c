@@ -14,6 +14,15 @@ int aux_num_es_mayor(const void* dato1, const void* dato2){
 }
 
 
+// Retorna 1 si el primer valor del arreglo1 es mayor que el primer valor del arreglo2
+int aux_arreglo_es_mayor(const void* arreglo_1, const void* arreglo_2){
+    int** arreglo_11 = arreglo_1;
+    int** arreglo_22 = arreglo_2;
+    if (arreglo_11[0] > arreglo_22[0]) return 1;
+    return -1;
+}
+
+
 void pruebas_heap_vacio(){
     printf("\nPRUEBAS HEAP: Vacío\n");
     heap_t* heap = heap_crear(aux_num_es_mayor);
@@ -22,11 +31,6 @@ void pruebas_heap_vacio(){
     print_test("El heap está vacío", heap_esta_vacio(heap));
     void* sacado = heap_desencolar(heap);
     print_test("Sale NULL del heap vacío", sacado == NULL);
-
-    //Para testear que aux_num_es_mayor está bien
-    //size_t num1 = 10;
-    //size_t num2 = 8;
-    //printf("Aux num %d\n", aux_num_es_mayor(&num1, &num2));
 
     heap_destruir(heap, NULL);
 }
@@ -160,11 +164,16 @@ void pruebas_heap_destruir_NULL(){
 
 void pruebas_heap_destruir_NONULL(){
     printf("\nPRUEBAS HEAP: Destruir con NO NULL\n");
+    int arreglo_aux[4] = {0, 1, 2, 3};
 
     void** arreglo_1 = malloc(100);
+    arreglo_1[0] = &arreglo_aux[0];
     void** arreglo_2 = malloc(200);
+    arreglo_2[0] = &arreglo_aux[1];
     void** arreglo_3 = malloc(300);
+    arreglo_3[0] = &arreglo_aux[2];
     void** arreglo_4 = malloc(400);
+    arreglo_4[0] = &arreglo_aux[3];
 
     heap_t* heap = heap_crear(aux_num_es_mayor);
     print_test("Puedo encolar 4", heap_encolar(heap, arreglo_1));
@@ -205,19 +214,19 @@ void pruebas_heap_volumen(size_t volumen){
 // Llama a cada prueba
 void pruebas_abb_estudiante(){
     /*
-    pruebas_heap_vacio();
-    pruebas_heap_un_elemento();
+    pruebas_heap_vacio(); // :)
+    pruebas_heap_un_elemento(); // :)
+    pruebas_heap_varios_elem(); // :)
+    pruebas_heap_destruir_NULL(); // :)
+    pruebas_heap_destruir_NONULL(); // :)
     */
+    pruebas_heap_volumen(1000); // Redimension
+    pruebas_heap_volumen(100000); // Redimension
 
-    pruebas_heap_varios_elem();
     
     /*
-    pruebas_heap_copiar_arreglo();
-    pruebas_heapsort();
-    pruebas_heap_destruir_NULL();
-    pruebas_heap_destruir_NONULL();
-    pruebas_heap_volumen(1000);
-    pruebas_heap_volumen(100000);
+    pruebas_heap_copiar_arreglo(); // Ordenar arreglo
+    pruebas_heapsort(); // Ordenar arreglo
     */
 }
 
