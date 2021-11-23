@@ -57,6 +57,10 @@ heap_t *heap_crear(cmp_func_t cmp){
 // Función auxiliar que retorna true si el primer valor es mayor que el segundo.
 bool aux_es_mayor(heap_t* heap, size_t posicion1, size_t posicion2){
     if (posicion1 == posicion2) return true;
+    if (posicion1 >= heap->cant || posicion2 >= heap->cant){
+        printf("Kawabunga\n");
+        return false; // ARREGLAR. LEE DONDE NO HAY NADA
+    }
     void* elem_pos1 = heap->datos[posicion1];
     void* elem_pos2 = heap->datos[posicion2];
 
