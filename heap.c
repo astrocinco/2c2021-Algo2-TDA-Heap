@@ -92,11 +92,35 @@ void aux_upheap(heap_t* heap, size_t pos_padre, size_t pos_inferior){
 }
 
 
-// Funcion auxiliar heap_desencolar
-// Esta funcion presupone que se sabe que es correcto hacer un downheap
 void aux_downheap(heap_t* heap, size_t pos_padre){
     size_t pos_hijo_izq = (2 * pos_padre) +1;
     size_t pos_hijo_der = (2 * pos_padre) +2;
+
+    if (pos_hijo_der >= heap->cant && pos_hijo_izq < heap->cant){ // Der no existe, izq si
+        aux_swap_generico(&heap->datos[pos_padre], &heap->datos[pos_hijo_izq]);
+        pos_padre = pos_hijo_izq;
+    } else if (pos_hijo_der < heap->cant){ // Ambos existen
+        if (aux_es_mayor(heap, pos_hijo_izq, pos_hijo_der)){ // Se elige el mayor de los dos
+            aux_swap_generico(&heap->datos[pos_padre], &heap->datos[pos_hijo_izq]); // Acá izq es mayor que der
+            pos_padre = pos_hijo_izq;
+        }else{
+            aux_swap_generico(&heap->datos[pos_padre], &heap->datos[pos_hijo_der]); // Acá der es mayor que izq
+            pos_padre = pos_hijo_der;
+        }
+    } else if (pos_hijo_izq >= heap->cant){ // Izq y der no existen
+        return;
+    } else {
+        printf("ERROR AUX_DOWNHEAP NO DEBERÍA LLEGAR ACÁ");
+    }
+    aux_downheap(heap, pos_padre);
+}
+
+// Funcion auxiliar heap_desencolar
+// Esta funcion presupone que se sabe que es correcto hacer un downheap
+void aux_downheap_2(heap_t* heap, size_t pos_padre){
+    size_t pos_hijo_izq = (2 * pos_padre) +1;
+    size_t pos_hijo_der = (2 * pos_padre) +2;
+
     if (aux_es_mayor(heap, pos_hijo_izq, pos_hijo_der)){
         aux_swap_generico(&heap->datos[pos_padre], &heap->datos[pos_hijo_izq]);
         pos_padre = pos_hijo_izq;
@@ -177,13 +201,9 @@ void* heap_desencolar(heap_t *heap){
     void* dato = heap->datos[0];
     heap->cant--; 
     if (heap->cant == 0) return dato;
-    aux_swap_generico(&heap->datos[0], &heap->datos[heap->cant -1]);
-    size_t pos_padre = 0;
-    size_t pos_hijo_izq = (2 * pos_padre) +1;
-    size_t pos_hijo_der = (2 * pos_padre) +2;
-    if (!aux_es_mayor(heap, pos_padre, pos_hijo_izq) || !aux_es_mayor(heap, pos_padre, pos_hijo_der)){ // Revisar
-        aux_downheap(heap, pos_padre);
-    }
+    aux_swap_generico(&heap->datos[0], &heap->datos[heap->cant]);
+    aux_downheap(heap, 0);
+
     return dato;
 }
 
@@ -209,6 +229,7 @@ void heap_destruir(heap_t *heap, void (*destruir_elemento)(void *e)){
 void debug_heap(const heap_t* heap){
     printf("DEBUGGER\n");
     
+    /*
     int arreglo[10] = {0, 1, 2, 3, 4, 5};
     void* arreglo_p[10];
     for (int i = 0; i < 10; i++){
@@ -222,14 +243,15 @@ void debug_heap(const heap_t* heap){
         printf("%d", *(int*)arreglo_p[i]);
     }
     printf("\n");
-    
+    */
+
     //printf("Puntero heap->cant %p\n", &heap->cant);
     
-    /*
+    
     printf("PRINTER DEBUGGER\n");
     for (size_t i = 0; i < heap->cant; i++){
         printf("    %d\n", *(int*)heap->datos[i]);
     }
     printf("FIN PRINTER DEBUGGER\n");
-    */
+    
 }
