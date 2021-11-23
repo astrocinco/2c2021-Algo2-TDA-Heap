@@ -16,7 +16,8 @@
 
 // Funcion de algoritmo de ordenamiento heap_sort. No es parte del TDA-Heap
 void heap_sort(void *elementos[], size_t cant, cmp_func_t cmp){
-    // HACER
+    heap_t* heap = heap_crear_arr(elementos, cant, cmp);
+    free(heap); // No heap_destruir para no perder los datos o el arreglo.
 }
 
 

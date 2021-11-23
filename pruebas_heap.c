@@ -54,21 +54,14 @@ void pruebas_heap_varios_elem(){
     int num_4 = 4;
 
     heap_t* heap = heap_crear(aux_num_es_mayor);
-    debug_heap(heap);
     print_test("Puedo encolar 2", heap_encolar(heap, &num_2));
-    debug_heap(heap);
-    printf("P60 Cantidad %lu\n", heap_cantidad(heap));
     //print_test("Puedo encolar 4", heap_encolar(heap, &num_4));
-    printf("P61 Cantidad %lu\n", heap_cantidad(heap));
-    debug_heap(heap);
     print_test("El heap no está vacío", !heap_esta_vacio(heap));
     print_test("La cantidad es 2", heap_cantidad(heap) == 2); 
-    debug_heap(heap);
     print_test("Puedo encolar 1", heap_encolar(heap, &num_1));
     print_test("Puedo encolar 3", heap_encolar(heap, &num_3));
     print_test("La cantidad es 4", heap_cantidad(heap) == 4);
     int* tope = heap_ver_max(heap);
-    printf("P65 %u\n", *tope);
     print_test("El máximo elemento es 4", *tope == num_4);
 
     // Sacar uno por uno
@@ -89,28 +82,39 @@ void pruebas_heap_varios_elem(){
 
 void pruebas_heap_copiar_arreglo(){
     printf("\nPRUEBAS HEAP: Copiar arreglo\n");
+    int arreglo_ints_cor[10] = {5, 4, 3, 2, 1, 0};
+    int* arreglo_p_ints_cor[10];
+    for (int j = 0; j < 10; j++){
+        arreglo_p_ints_cor[j] = &arreglo_ints_cor[j];
+    }
+
     int arreglo_ints[10] = {3, 5, 4, 0, 1, 2};
     void* arreglo_p_ints[10];
     for (int i = 0; i < 10; i++){
         arreglo_p_ints[i] = &arreglo_ints[i];
     }
+
     heap_t* heap = heap_crear_arr(arreglo_p_ints, 10, aux_num_es_mayor);
 
-    print_test("La cantidad es 1", heap_cantidad(heap) == 6);
+    print_test("La cantidad es 6", heap_cantidad(heap) == 6);
+    print_test("El máximo es correcto", heap_ver_max(heap) == arreglo_p_ints_cor[0]);
 
-    // Crear con _copiar arreglo_
-    // Revisar que el arreglo ahora tiene el orden correcto
-    // Retorna maximo correcto
-    // Cantidad == len(arreglo)
-    // Borrar
-    // Obtener
-    // Destruir
+    bool todo_ok = true;
+    int* sacado;
+    for (int k = 0; k < 10; k++){
+        sacado = heap_desencolar(heap);
+        if (sacado != arreglo_p_ints_cor[k]) todo_ok = false;
+    }
+    print_test("Salen todos los elementos de forma ordenada", todo_ok);
+
+    heap_destruir(heap, NULL);
 }
 
 
 void pruebas_heapsort(){
     printf("\nPRUEBAS HEAP: Heapsort\n");
 
+    
     // Ingresar arreglo y recibir "arreglo_ordenado"
     // REvisar que arreglo ordenado esté bien ordenado
     // Revisar que ambos punteros son los mismos, es in-place (REVISAR CONCEPTO)
