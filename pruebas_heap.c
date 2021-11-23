@@ -57,10 +57,12 @@ void pruebas_heap_varios_elem(){
     debug_heap(heap);
     print_test("Puedo encolar 2", heap_encolar(heap, &num_2));
     debug_heap(heap);
-    print_test("Puedo encolar 4", heap_encolar(heap, &num_4));
+    printf("P60 Cantidad %lu\n", heap_cantidad(heap));
+    //print_test("Puedo encolar 4", heap_encolar(heap, &num_4));
+    printf("P61 Cantidad %lu\n", heap_cantidad(heap));
     debug_heap(heap);
-    //print_test("El heap no está vacío", !heap_esta_vacio(heap));
-    //print_test("La cantidad es 2", heap_cantidad(heap) == 2); 
+    print_test("El heap no está vacío", !heap_esta_vacio(heap));
+    print_test("La cantidad es 2", heap_cantidad(heap) == 2); 
     debug_heap(heap);
     print_test("Puedo encolar 1", heap_encolar(heap, &num_1));
     print_test("Puedo encolar 3", heap_encolar(heap, &num_3));
