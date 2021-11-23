@@ -3,9 +3,9 @@
 #include "testing.h"
 #include <string.h>
 #include "heap.h"
-#include "pila.h"
 
 
+// Retorna 1 si el primer valor es mayor que el segundo
 int aux_num_es_mayor(size_t num1, size_t num2){
     if (num1 > num2) return 1;
     return -1;
@@ -45,7 +45,7 @@ void pruebas_heap_un_elemento(){
 
 void pruebas_heap_copiar_arreglo(){
     printf("\nPRUEBAS HEAP: Copiar arreglo\n");
-    int arreglo_ints[10] = {3, 5, 4, 0, 1, 2};
+    int* arreglo_ints[10] = {3, 5, 4, 0, 1, 2};
     heap_t* heap = heap_crear_arr(arreglo_ints, 10, aux_num_es_mayor);
 
     print_test("La cantidad es 1", heap_cantidad(heap) == 6);
@@ -104,12 +104,14 @@ void pruebas_heap_volumen(size_t volumen){
 void pruebas_abb_estudiante(){
     pruebas_heap_vacio();
     pruebas_heap_un_elemento();
+    /*
     pruebas_heap_copiar_arreglo();
     pruebas_heapsort();
     pruebas_heap_destruir_NULL();
     pruebas_heap_destruir_NONULL();
     pruebas_heap_volumen(1000);
     pruebas_heap_volumen(100000);
+    */
 }
 
 #ifndef CORRECTOR // Para que no dé conflicto con el main() del corrector.

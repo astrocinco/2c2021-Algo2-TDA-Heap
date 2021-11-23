@@ -126,7 +126,7 @@ void aux_redimensionar(heap_t* heap, size_t nueva_cap){
 }
 
 
-heap_t *heap_crear_arr(void *arreglo[], size_t n, cmp_func_t cmp){
+heap_t *heap_crear_arr(void* arreglo[], size_t n, cmp_func_t cmp){
     heap_t* nuevo_heap = malloc(sizeof(heap_t));
     if (nuevo_heap == NULL) return NULL;
 
