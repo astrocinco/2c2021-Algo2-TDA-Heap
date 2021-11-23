@@ -39,9 +39,47 @@ void pruebas_heap_un_elemento(){
     print_test("El heap está vacío", heap_esta_vacio(heap));
     print_test("Puedo encolar A", heap_encolar(heap, letra_1));
     print_test("La cantidad es 1", heap_cantidad(heap) == 1);
-    debug_heap(heap);
     char* sacado = heap_desencolar(heap);
-    print_test("Sale 'A'", strcmp(letra_1, sacado));
+    print_test("Sale 'A'", strcmp(letra_1, sacado) == 0);
+
+    heap_destruir(heap, NULL);
+}
+
+
+void pruebas_heap_varios_elem(){
+    printf("\nPRUEBAS HEAP: Varios elementos\n");
+    int num_1 = 1;
+    int num_2 = 2;
+    int num_3 = 3;
+    int num_4 = 4;
+
+    heap_t* heap = heap_crear(aux_num_es_mayor);
+    debug_heap(heap);
+    print_test("Puedo encolar 2", heap_encolar(heap, &num_2));
+    debug_heap(heap);
+    print_test("Puedo encolar 4", heap_encolar(heap, &num_4));
+    debug_heap(heap);
+    //print_test("El heap no está vacío", !heap_esta_vacio(heap));
+    //print_test("La cantidad es 2", heap_cantidad(heap) == 2); 
+    debug_heap(heap);
+    print_test("Puedo encolar 1", heap_encolar(heap, &num_1));
+    print_test("Puedo encolar 3", heap_encolar(heap, &num_3));
+    print_test("La cantidad es 4", heap_cantidad(heap) == 4);
+    int* tope = heap_ver_max(heap);
+    printf("P65 %u\n", *tope);
+    print_test("El máximo elemento es 4", *tope == num_4);
+
+    // Sacar uno por uno
+    int* sacado = heap_desencolar(heap);
+    print_test("Salió 4", *sacado == num_4);
+    sacado = heap_desencolar(heap);
+    print_test("Salió 3", *sacado == num_3);
+    sacado = heap_desencolar(heap);
+    print_test("Salió 2", *sacado == num_2);
+    sacado = heap_desencolar(heap);
+    print_test("Salió 1", *sacado == num_1);
+    sacado = heap_desencolar(heap);
+    print_test("Salió NULL", sacado == NULL);
 
     heap_destruir(heap, NULL);
 }
@@ -112,6 +150,7 @@ void pruebas_heap_volumen(size_t volumen){
 void pruebas_abb_estudiante(){
     pruebas_heap_vacio();
     pruebas_heap_un_elemento();
+    pruebas_heap_varios_elem();
     /*
     pruebas_heap_copiar_arreglo();
     pruebas_heapsort();

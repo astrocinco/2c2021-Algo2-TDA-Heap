@@ -31,11 +31,15 @@ typedef struct heap{
 
 // Funcion de debug. -- BORRAR PARA ENTREGA
 void debug_heap(const heap_t* heap){
+    printf("DEBUGGER\n");
+    printf("Puntero heap->cant %p\n", &heap->cant);
+    /*
     printf("PRINTER DEBUGGER\n");
     for (size_t i = 0; i < heap->cant; i++){
         printf("    %d\n", *(int*)heap->datos[i]);
     }
     printf("FIN PRINTER DEBUGGER\n");
+    */
 }
 
 
@@ -56,13 +60,15 @@ heap_t *heap_crear(cmp_func_t cmp){
 
 // Función auxiliar que retorna true si el primer valor es mayor que el segundo.
 bool aux_es_mayor(heap_t* heap, size_t posicion1, size_t posicion2){
+    printf("C59 %lu %lu\n", posicion1, posicion2);
     if (posicion1 == posicion2) return true;
-    if (posicion1 >= heap->cant || posicion2 >= heap->cant){
+    if (posicion1 > heap->cant || posicion2 > heap->cant){
         printf("Kawabunga\n");
         return false; // ARREGLAR. LEE DONDE NO HAY NADA
     }
     void* elem_pos1 = heap->datos[posicion1];
     void* elem_pos2 = heap->datos[posicion2];
+    printf("C66 %d %d\n", *(int*)elem_pos1, *(int*)elem_pos2);
 
     cmp_func_t funcion_cmp = heap->cmp;
     int resultado = funcion_cmp(elem_pos1, elem_pos2);
@@ -87,9 +93,12 @@ bool aux_swap_generico(void* x, void* y) { // <---------------------------------
 // Funcion auxiliar heap_encolar
 // Esta funcion presupone que se sabe que es correcto hacer un unheap
 void aux_upheap(heap_t* heap, size_t pos_padre, size_t pos_inferior){
+    printf("UPHEAP\n");
     aux_swap_generico(heap->datos[pos_padre], heap->datos[pos_inferior]);
+    if (pos_padre == 0) return;
     pos_inferior = pos_padre;
     pos_padre = (pos_padre -1) / 2;
+    printf("C96 %lu %lu\n", pos_inferior, pos_padre);
     if (!aux_es_mayor(heap, pos_padre, pos_inferior)){
         aux_upheap(heap, pos_padre, pos_inferior);
     }
@@ -124,6 +133,7 @@ void aux_ordenar_arreglo_entero(heap_t* heap){
 
 // Función auxiliar de heap_guardar y heap_borrar
 void aux_redimensionar(heap_t* heap, size_t nueva_cap){
+    printf("REDIMENSION\n");
     // Revisar nueva cap >= CAP_INIC
     // ESTA FUNCION CAMBIA LA CAPACIDAD DEL ARREGLO DEL HEAP
     heap->tam = nueva_cap;
@@ -143,26 +153,33 @@ heap_t *heap_crear_arr(void* arreglo[], size_t n, cmp_func_t cmp){
 }
 
 
-bool heap_esta_vacio(const heap_t *heap){
+bool heap_esta_vacio(const heap_t* heap){
+    printf("C152 %p\n", &heap->cant);
     return heap->cant == 0;
 }
 
 
-size_t heap_cantidad(const heap_t *heap){
-    return heap->cant;
+size_t heap_cantidad(const heap_t* heap){
+    printf("C157 %lu\n", heap->cant);
+    size_t valor = heap->cant;
+    return valor;
 }
 
 
 bool heap_encolar(heap_t *heap, void *elem){
     heap->datos[heap->cant] = elem;
-    size_t pos_nuevo = heap->cant;
+    heap->cant++;
+    printf("C165 %lu\n", heap->cant);
+    if (heap->cant == 1) return true;
+    size_t pos_nuevo = heap->cant -1;
     size_t pos_padre = (pos_nuevo -1) / 2;
 
     if (!aux_es_mayor(heap, pos_padre, pos_nuevo)){
+        printf("Mando a UPHEAP\n");
         aux_upheap(heap, pos_padre, pos_nuevo);
     }
-    heap->cant++; // Podría ir más arriba y ser consistente con * (heap_desencolar) ? 
     if (heap->cant == heap->tam) aux_redimensionar(heap, heap->tam * FACTOR_NVA_CAP);
+    printf("C178 %lu %p\n", heap->cant, &heap->cant);
     return true; 
 }
 
@@ -171,8 +188,9 @@ void* heap_desencolar(heap_t *heap){
     if (heap_esta_vacio(heap)) return NULL;
 
     void* dato = heap->datos[0];
+    heap->cant--; 
+    if (heap->cant == 0) return dato;
     aux_swap_generico(heap->datos[0], heap->datos[heap->cant -1]);
-    heap->cant--; // *
     size_t pos_padre = 0;
     size_t pos_hijo_izq = (2 * pos_padre) +1;
     size_t pos_hijo_der = (2 * pos_padre) +2;
