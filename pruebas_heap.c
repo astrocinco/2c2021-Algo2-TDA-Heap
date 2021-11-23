@@ -111,8 +111,8 @@ void pruebas_heap_volumen(size_t volumen){
 // Llama a cada prueba
 void pruebas_abb_estudiante(){
     pruebas_heap_vacio();
-    /*
     pruebas_heap_un_elemento();
+    /*
     pruebas_heap_copiar_arreglo();
     pruebas_heapsort();
     pruebas_heap_destruir_NULL();

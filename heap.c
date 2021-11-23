@@ -44,12 +44,12 @@ heap_t *heap_crear(cmp_func_t cmp){
     heap_t* nuevo_heap = malloc(sizeof(heap_t));
     if (nuevo_heap == NULL) return NULL;
 
-    nuevo_heap->datos = malloc(nuevo_heap->tam * sizeof(void*));
-    if (nuevo_heap->datos == NULL) return NULL;
-
     nuevo_heap->cant = 0;
     nuevo_heap->cmp = cmp;
     nuevo_heap->tam = CAP_INIC;
+
+    nuevo_heap->datos = malloc(nuevo_heap->tam * sizeof(void*));
+    if (nuevo_heap->datos == NULL) return NULL;
     return nuevo_heap;
 }
 
