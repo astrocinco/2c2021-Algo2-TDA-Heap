@@ -115,26 +115,6 @@ void aux_downheap(heap_t* heap, size_t pos_padre){
     aux_downheap(heap, pos_padre);
 }
 
-// Funcion auxiliar heap_desencolar
-// Esta funcion presupone que se sabe que es correcto hacer un downheap
-void aux_downheap_2(heap_t* heap, size_t pos_padre){
-    size_t pos_hijo_izq = (2 * pos_padre) +1;
-    size_t pos_hijo_der = (2 * pos_padre) +2;
-
-    if (aux_es_mayor(heap, pos_hijo_izq, pos_hijo_der)){
-        aux_swap_generico(&heap->datos[pos_padre], &heap->datos[pos_hijo_izq]);
-        pos_padre = pos_hijo_izq;
-    }else{
-        aux_swap_generico(&heap->datos[pos_padre], &heap->datos[pos_hijo_der]);
-        pos_padre = pos_hijo_der;
-    }
-    pos_hijo_izq = (2 * pos_padre) +1;
-    pos_hijo_der = (2 * pos_padre) +2;
-    if (!aux_es_mayor(heap, pos_padre, pos_hijo_izq) || !aux_es_mayor(heap, pos_padre, pos_hijo_der)){ // Revisar
-        aux_downheap(heap, pos_padre);
-    }
-}
-
 
 // Funcion auxiliar para ordenar los arreglos para que cumplan las condiciones del heap
 void aux_ordenar_arreglo_entero(heap_t* heap){
@@ -144,9 +124,12 @@ void aux_ordenar_arreglo_entero(heap_t* heap){
 
 // Función auxiliar de heap_guardar y heap_borrar
 void aux_redimensionar(heap_t* heap, size_t nueva_cap){
-    printf("REDIMENSION\n");
-    // Revisar nueva cap >= CAP_INIC
-    // ESTA FUNCION CAMBIA LA CAPACIDAD DEL ARREGLO DEL HEAP
+    printf("REDIMENSION. Vieja: %lu, nueva: %lu\n", heap->tam, nueva_cap);
+    if (nueva_cap < CAP_INIC) nueva_cap = CAP_INIC;
+
+    void** nuevo_arreglo = realloc(heap->datos, nueva_cap * sizeof(void*));
+    if (nuevo_arreglo == NULL) return;
+    heap->datos = nuevo_arreglo;
     heap->tam = nueva_cap;
 }
 
@@ -203,6 +186,8 @@ void* heap_desencolar(heap_t *heap){
     if (heap->cant == 0) return dato;
     aux_swap_generico(&heap->datos[0], &heap->datos[heap->cant]);
     aux_downheap(heap, 0);
+
+    if (heap->cant < heap->tam / FACTOR_CARGA_MINIMA && heap->tam > CAP_INIC) aux_redimensionar(heap, heap->tam / FACTOR_NVA_CAP);
 
     return dato;
 }

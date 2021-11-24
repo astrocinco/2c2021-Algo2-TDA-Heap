@@ -3,6 +3,7 @@
 #include "testing.h"
 #include <string.h>
 #include "heap.h"
+//#define RAND_MAX 1000
 
 
 // Retorna 1 si el primer valor es mayor que el segundo
@@ -189,7 +190,7 @@ void pruebas_heap_destruir_NONULL(){
 void pruebas_heap_volumen(size_t volumen){
     printf("\nPRUEBAS HEAP: Volumen\n");
 
-    int* arreglo[volumen];
+    size_t arreglo[volumen];
     size_t* ultimo;
     size_t* actual;
     bool todo_ok = true;
@@ -197,16 +198,18 @@ void pruebas_heap_volumen(size_t volumen){
 
     for (size_t i = 0; i < volumen; i++){
         arreglo[i] = rand();
+        printf("    Arreglo: %lu\n", arreglo[i]);
         heap_encolar(heap, &arreglo[i]);
-    } // Hacer un print_test para verificar si el arreglo auxiliar se acreó bien?
+    } // Hacer un print_test para verificar si el arreglo auxiliar se creó bien?
 
     ultimo = heap_desencolar(heap);
     for (size_t j = 0; j < volumen-1; j++){
         actual = heap_desencolar(heap);
+        printf("    %lu\n", *(size_t*)actual);
         if (*actual > * ultimo) todo_ok = false;
         ultimo = actual; // Revisar
     }
-    print_test("Las pruebas de volumen desencolan correctamente", todo_ok);
+    print_test("Las pruebas de volumen desencolan de mayor a menor", todo_ok);
 
     heap_destruir(heap, NULL);
 }
@@ -220,11 +223,11 @@ void pruebas_abb_estudiante(){
     pruebas_heap_destruir_NULL(); // :)
     pruebas_heap_destruir_NONULL(); // :)
     */
-    pruebas_heap_volumen(1000); // Redimension
-    pruebas_heap_volumen(100000); // Redimension
+    pruebas_heap_volumen(100); // Redimension
 
     
     /*
+    pruebas_heap_volumen(100000); // Redimension
     pruebas_heap_copiar_arreglo(); // Ordenar arreglo
     pruebas_heapsort(); // Ordenar arreglo
     */
