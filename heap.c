@@ -116,9 +116,9 @@ void aux_downheap(heap_t* heap, size_t pos_padre){
 }
 
 
-// Funcion auxiliar para ordenar los arreglos para que cumplan las condiciones del heap
-void aux_ordenar_arreglo_entero(heap_t* heap){
-    // ESTA FUNCION ORDENA UN ARREGLO PARA QUE CUMPLA CON LAS CONDICIONES DE UN HEAP
+// Funcion auxiliar para heapify
+void aux_heapify(heap_t* heap){
+    
 }
 
 
@@ -140,8 +140,8 @@ heap_t *heap_crear_arr(void* arreglo[], size_t n, cmp_func_t cmp){
 
     nuevo_heap->cmp = cmp;
     nuevo_heap->tam = CAP_INIC;
-    // heap->datos = arreglo --- HACER ---
-    // Ordenar el arreglo recibido para que cumpla las condiciones de heap --- HACER ---
+    nuevo_heap->datos = arreglo;
+    aux_heapify(nuevo_heap);
 
     return nuevo_heap;
 }
