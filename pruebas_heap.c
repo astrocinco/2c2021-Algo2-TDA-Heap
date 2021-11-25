@@ -16,13 +16,27 @@ int aux_num_es_mayor(const void* dato1, const void* dato2){
 
 
 // Retorna 1 si el primer valor del arreglo1 es mayor que el primer valor del arreglo2
+/*
 int aux_arreglo_es_mayor(const void* arreglo_1, const void* arreglo_2){
     int** arreglo_11 = arreglo_1;
     int** arreglo_22 = arreglo_2;
-    if (arreglo_11[0] > arreglo_22[0]) return 1;
+    if (arreglo_11[0] > arreglo_22[0]){
+        return 1;
+    }
     return -1;
 }
+*/
 
+int comparar_char(const void* primero, const void* segundo){
+    const char* pri = primero;
+    const char* seg = segundo;
+
+    if ((*pri) > (*seg)){
+        return 1;
+    }
+    return -1;
+
+}
 
 void pruebas_heap_vacio(){
     printf("\nPRUEBAS HEAP: Vacío\n");
@@ -40,7 +54,7 @@ void pruebas_heap_vacio(){
 void pruebas_heap_un_elemento(){
     printf("\nPRUEBAS HEAP: Un elemento\n");
     char* letra_1 = "A";
-    heap_t* heap = heap_crear(strcmp);
+    heap_t* heap = heap_crear(comparar_char);
 
     print_test("El heap está vacío", heap_esta_vacio(heap));
     print_test("Puedo encolar A", heap_encolar(heap, letra_1));
@@ -126,15 +140,17 @@ void pruebas_heapsort(){
     bool todo_ok = true;
     int arreglo_int[10] = {1, 3, 3, 7};
     int arreglo_cor[10] = {7, 3, 3, 1};
-    int* arreglo_pu[10];
-    for (int i = 0; i < 10; i++){ // Tal vez esto tenga que ser un 4
+    void* arreglo_pu[10];
+    for (int i = 0; i < 4; i++){ // Tal vez esto tenga que ser un 4
         arreglo_pu[i] = &arreglo_int[i];
     }
 
     heap_sort(arreglo_pu, 4, aux_num_es_mayor);
 
     for (int j = 0; j < 4; j++){
-        if (*arreglo_pu[j] != arreglo_cor[j]) todo_ok = false; 
+        if ( (*(int*)arreglo_pu[j]) != arreglo_cor[j]){∫
+            todo_ok = false; 
+        }
     }
     print_test("Heapsort ordenó correctamente el arreglo", todo_ok);
     // Ingresar arreglo y recibir "arreglo_ordenado"
@@ -198,7 +214,7 @@ void pruebas_heap_volumen(size_t volumen){
 
     for (size_t i = 0; i < volumen; i++){
         arreglo[i] = rand();
-        printf("    Arreglo: %lu\n", arreglo[i]);
+        //printf("    Arreglo: %lu\n", arreglo[i]);
         heap_encolar(heap, &arreglo[i]);
     } // Hacer un print_test para verificar si el arreglo auxiliar se creó bien?
 
@@ -217,12 +233,12 @@ void pruebas_heap_volumen(size_t volumen){
 // Llama a cada prueba
 void pruebas_abb_estudiante(){
     /*
+    */
     pruebas_heap_vacio(); // :)
     pruebas_heap_un_elemento(); // :)
     pruebas_heap_varios_elem(); // :)
     pruebas_heap_destruir_NULL(); // :)
     pruebas_heap_destruir_NONULL(); // :)
-    */
     pruebas_heap_volumen(100); // Redimension
 
     

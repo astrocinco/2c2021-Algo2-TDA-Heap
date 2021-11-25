@@ -17,7 +17,8 @@
 // Funcion de algoritmo de ordenamiento heap_sort. No es parte del TDA-Heap
 void heap_sort(void *elementos[], size_t cant, cmp_func_t cmp){
     heap_t* heap = heap_crear_arr(elementos, cant, cmp);
-    free(heap); // No heap_destruir para no perder los datos o el arreglo.
+    free(heap);
+    // No heap_destruir para no perder los datos o el arreglo.
 }
 
 
@@ -82,7 +83,9 @@ bool aux_swap_generico(void* x, void* y) {
 void aux_upheap(heap_t* heap, size_t pos_padre, size_t pos_inferior){
     //printf("UPHEAP\n");
     aux_swap_generico(&heap->datos[pos_padre], &heap->datos[pos_inferior]);
-    if (pos_padre == 0) return;
+    if (pos_padre == 0){
+        return;
+    } 
     pos_inferior = pos_padre;
     pos_padre = (pos_padre -1) / 2;
     //printf("C96 %lu %lu\n", pos_inferior, pos_padre);
