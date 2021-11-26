@@ -15,11 +15,19 @@
 
 
 // Funcion de algoritmo de ordenamiento heap_sort. No es parte del TDA-Heap
-void heap_sort(void *elementos[], size_t cant, cmp_func_t cmp){
-    heap_t* heap = heap_crear_arr(elementos, cant, cmp);
-    free(heap);
-    // No heap_destruir para no perder los datos o el arreglo.
+
+// Funcion auxiliar de swap. Recibe punteros (llamar con &)
+bool aux_swap_generico(void* x, void* y) {
+    void* aux = malloc(sizeof(void*));
+    if (aux == NULL) return false;
+
+    memcpy(aux, x, sizeof(void*));
+    memcpy(x, y, sizeof(void*));
+    memcpy(y, aux, sizeof(void*));
+    free(aux);
+    return true;
 }
+
 
 
 // STRUCTS
@@ -47,83 +55,92 @@ heap_t *heap_crear(cmp_func_t cmp){
 
 
 // Función auxiliar que retorna true si el primer valor es mayor que el segundo.
-bool aux_es_mayor(heap_t* heap, size_t posicion1, size_t posicion2){
+bool aux_es_mayor(void* arreglo[],size_t n, size_t posicion1, size_t posicion2,cmp_func_t cmp){
     //printf("C59 %lu %lu\n", posicion1, posicion2);
     if (posicion1 == posicion2) return true;
-    if (posicion1 > heap->cant || posicion2 > heap->cant){
+    if (posicion1 > n || posicion2 > n){
         printf("Kawabunga\n");
         return false; // ARREGLAR. LEE DONDE NO HAY NADA
     }
-    void* elem_pos1 = heap->datos[posicion1];
-    void* elem_pos2 = heap->datos[posicion2];
+    void* elem_pos1 = arreglo[posicion1];
+    void* elem_pos2 = arreglo[posicion2];
     //printf("C66 %d %d\n", *(int*)elem_pos1, *(int*)elem_pos2);
 
-    cmp_func_t funcion_cmp = heap->cmp;
-    int resultado = funcion_cmp(elem_pos1, elem_pos2);
+    int resultado = cmp(elem_pos1, elem_pos2);
 
     return (resultado > 0);
 }
 
 
-// Funcion auxiliar de swap. Recibe punteros (llamar con &)
-bool aux_swap_generico(void* x, void* y) {
-    void* aux = malloc(sizeof(void*));
-    if (aux == NULL) return false;
-
-    memcpy(aux, x, sizeof(void*));
-    memcpy(x, y, sizeof(void*));
-    memcpy(y, aux, sizeof(void*));
-    free(aux);
-    return true;
-}
 
 
 // Funcion auxiliar heap_encolar
 // Esta funcion presupone que se sabe que es correcto hacer un unheap
-void aux_upheap(heap_t* heap, size_t pos_padre, size_t pos_inferior){
+void aux_upheap(void* arreglo[],size_t n, size_t pos_padre, size_t pos_inferior, cmp_func_t cmp){
     //printf("UPHEAP\n");
-    aux_swap_generico(&heap->datos[pos_padre], &heap->datos[pos_inferior]);
+    aux_swap_generico(&arreglo[pos_padre], &arreglo[pos_inferior]);
     if (pos_padre == 0){
         return;
     } 
     pos_inferior = pos_padre;
     pos_padre = (pos_padre -1) / 2;
     //printf("C96 %lu %lu\n", pos_inferior, pos_padre);
-    if (!aux_es_mayor(heap, pos_padre, pos_inferior)){
-        aux_upheap(heap, pos_padre, pos_inferior);
+    if (!aux_es_mayor(arreglo,n, pos_padre, pos_inferior,cmp)){
+        aux_upheap(arreglo,n, pos_padre, pos_inferior,cmp);
     }
 }
 
 
-void aux_downheap(heap_t* heap, size_t pos_padre){
+void aux_downheap(void* arreglo[],size_t n, size_t pos_padre,cmp_func_t cmp){
     size_t pos_hijo_izq = (2 * pos_padre) +1;
     size_t pos_hijo_der = (2 * pos_padre) +2;
 
-    if (pos_hijo_der >= heap->cant && pos_hijo_izq < heap->cant){ // Der no existe, izq si
-        aux_swap_generico(&heap->datos[pos_padre], &heap->datos[pos_hijo_izq]);
+    if (pos_hijo_der >= n && pos_hijo_izq < n){ 
+    // Der no existe, izq si
+        aux_swap_generico(&arreglo[pos_padre], &arreglo[pos_hijo_izq]);
         pos_padre = pos_hijo_izq;
-    } else if (pos_hijo_der < heap->cant){ // Ambos existen
-        if (aux_es_mayor(heap, pos_hijo_izq, pos_hijo_der)){ // Se elige el mayor de los dos
-            aux_swap_generico(&heap->datos[pos_padre], &heap->datos[pos_hijo_izq]); // Acá izq es mayor que der
+    } else if (pos_hijo_der < n){ // Ambos existen
+        if (aux_es_mayor(arreglo,n, pos_hijo_izq, pos_hijo_der,cmp)){ // Se elige el mayor de los dos
+            aux_swap_generico(&arreglo[pos_padre], &arreglo[pos_hijo_izq]); 
+            // Acá izq es mayor que der
             pos_padre = pos_hijo_izq;
         }else{
-            aux_swap_generico(&heap->datos[pos_padre], &heap->datos[pos_hijo_der]); // Acá der es mayor que izq
+            aux_swap_generico(&arreglo[pos_padre], &arreglo[pos_hijo_der]); 
+            // Acá der es mayor que izq
             pos_padre = pos_hijo_der;
         }
-    } else if (pos_hijo_izq >= heap->cant){ // Izq y der no existen
+    } else if (pos_hijo_izq >= n){ // Izq y der no existen
         return;
     } else {
         printf("ERROR AUX_DOWNHEAP NO DEBERÍA LLEGAR ACÁ");
     }
-    aux_downheap(heap, pos_padre);
+    aux_downheap(arreglo,n, pos_padre,cmp);
 }
 
 
 // Funcion auxiliar para heapify
-void aux_heapify(heap_t* heap){
-    
+void heapify(void *elementos[], size_t cant, cmp_func_t cmp){
+    heap_t* heap = heap_crear(cmp);
+    if (!heap){
+        return;
+    }
+    for (size_t i = 0; i < cant-1; ++i){
+        aux_downheap(elementos,cant,cant-1-i,cmp);
+    }
+
 }
 
+void heap_sort(void *arr[], size_t cant, cmp_func_t cmp){
+
+    heapify(arr,cant,cmp);    
+
+    int pos_maximo = 0;
+    for (int i = 0; i < cant-1; ++i){
+        aux_swap_generico(arr[pos_maximo],arr[cant-1]);
+        cant--;
+        aux_downheap(arr,cant,pos_maximo,cmp);
+    }
+}//falta arreglar downheap, upheap, hacer heapify
 
 // Función auxiliar de heap_guardar y heap_borrar
 void aux_redimensionar(heap_t* heap, size_t nueva_cap){
@@ -144,7 +161,7 @@ heap_t *heap_crear_arr(void* arreglo[], size_t n, cmp_func_t cmp){
     nuevo_heap->cmp = cmp;
     nuevo_heap->tam = CAP_INIC;
     nuevo_heap->datos = arreglo;
-    aux_heapify(nuevo_heap);
+    heapify(arreglo,n,cmp);
 
     return nuevo_heap;
 }
@@ -171,9 +188,9 @@ bool heap_encolar(heap_t *heap, void *elem){
     size_t pos_nuevo = heap->cant -1;
     size_t pos_padre = (pos_nuevo -1) / 2;
 
-    if (!aux_es_mayor(heap, pos_padre, pos_nuevo)){
+    if (!aux_es_mayor(heap->datos,heap->cant, pos_padre, pos_nuevo,heap->cmp)){
         //printf("Mando a UPHEAP\n");
-        aux_upheap(heap, pos_padre, pos_nuevo);
+        aux_upheap(heap->datos,heap->cant, pos_padre, pos_nuevo,heap->cmp);
     }
     if (heap->cant == heap->tam) aux_redimensionar(heap, heap->tam * FACTOR_NVA_CAP);
     //printf("C178 %lu %p\n", heap->cant, &heap->cant);
@@ -188,7 +205,7 @@ void* heap_desencolar(heap_t *heap){
     heap->cant--; 
     if (heap->cant == 0) return dato;
     aux_swap_generico(&heap->datos[0], &heap->datos[heap->cant]);
-    aux_downheap(heap, 0);
+    aux_downheap(heap->datos, heap->cant,0,heap->cmp);
 
     if (heap->cant < heap->tam / FACTOR_CARGA_MINIMA && heap->tam > CAP_INIC) aux_redimensionar(heap, heap->tam / FACTOR_NVA_CAP);
 

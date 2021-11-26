@@ -148,7 +148,7 @@ void pruebas_heapsort(){
     heap_sort(arreglo_pu, 4, aux_num_es_mayor);
 
     for (int j = 0; j < 4; j++){
-        if ( (*(int*)arreglo_pu[j]) != arreglo_cor[j]){∫
+        if ( (*(int*)arreglo_pu[j]) != arreglo_cor[j]){
             todo_ok = false; 
         }
     }
