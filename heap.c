@@ -119,28 +119,46 @@ void aux_downheap(void* arreglo[],size_t n, size_t pos_padre,cmp_func_t cmp){
 
 
 // Funcion auxiliar para heapify
-void heapify(void *elementos[], size_t cant, cmp_func_t cmp){
-    heap_t* heap = heap_crear(cmp);
-    if (!heap){
-        return;
-    }
-    for (size_t i = 0; i < cant-1; ++i){
-        aux_downheap(elementos,cant,cant-1-i,cmp);
-    }
+void heapify(void *arreglo[], size_t cant, cmp_func_t cmp,size_t actual){
+   
+    size_t izq = (2 * actual) +1;
+    size_t der = (2 * actual) +2;
 
-}
+    if (izq < cant){
+        heapify(arreglo,cant,cmp,izq);
+    }
+    if (der < cant){
+        heapify(arreglo,cant, cmp,der);
+    }
+    if (actual <cant){
+        aux_downheap(arreglo,cant,actual,cmp);
+    }
+}//no anda, ni siquiera se si esta bien planteado
 
 void heap_sort(void *arr[], size_t cant, cmp_func_t cmp){
 
-    heapify(arr,cant,cmp);    
-
+    printf("%lu\n", cant);
+    printf("antes\n");
+    for (int i = 0; i < cant; ++i){
+        printf("%i,", (*(int*)arr[i]));
+    }
+    heapify(arr,cant,cmp,0);
+    printf("\ndespues\n");
+    for (int i = 0; i < cant; ++i){
+        printf("%i,", (*(int*)arr[i]));
+    }
     int pos_maximo = 0;
-    for (int i = 0; i < cant-1; ++i){
-        aux_swap_generico(arr[pos_maximo],arr[cant-1]);
-        cant--;
+    for (int i = 0; i < cant-1; i++){
+        aux_swap_generico(arr[pos_maximo],arr[cant-1-i]);
         aux_downheap(arr,cant,pos_maximo,cmp);
     }
-}//falta arreglar downheap, upheap, hacer heapify
+    printf("\n");
+    printf("cant %lu\n", cant);
+    printf("despues de todo\n");
+    for (int i = 0; i < cant; ++i){
+        printf("%i,", (*(int*)arr[i]));
+    }
+}
 
 // Función auxiliar de heap_guardar y heap_borrar
 void aux_redimensionar(heap_t* heap, size_t nueva_cap){
@@ -161,7 +179,7 @@ heap_t *heap_crear_arr(void* arreglo[], size_t n, cmp_func_t cmp){
     nuevo_heap->cmp = cmp;
     nuevo_heap->tam = CAP_INIC;
     nuevo_heap->datos = arreglo;
-    heapify(arreglo,n,cmp);
+    heapify(arreglo,n,cmp,0);
 
     return nuevo_heap;
 }

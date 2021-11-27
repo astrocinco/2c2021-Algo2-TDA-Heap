@@ -137,21 +137,29 @@ void pruebas_heap_copiar_arreglo(){
 
 void pruebas_heapsort(){
     printf("\nPRUEBAS HEAP: Heapsort\n");
+    
+
     bool todo_ok = true;
-    int arreglo_int[10] = {1, 3, 3, 7};
-    int arreglo_cor[10] = {7, 3, 3, 1};
-    void* arreglo_pu[10];
+    int arreglo_int[8] = {1, 3, 9, 7};
+    int arreglo_cor[8] = {9, 7, 3, 1};
+
+
+
+    void* arreglo_pu[8];
     for (int i = 0; i < 4; i++){ // Tal vez esto tenga que ser un 4
         arreglo_pu[i] = &arreglo_int[i];
     }
-
     heap_sort(arreglo_pu, 4, aux_num_es_mayor);
 
     for (int j = 0; j < 4; j++){
+        printf("%i   xxDD\n", (*(int*)arreglo_pu[j]));
         if ( (*(int*)arreglo_pu[j]) != arreglo_cor[j]){
             todo_ok = false; 
         }
     }
+
+
+
     print_test("Heapsort ordenó correctamente el arreglo", todo_ok);
     // Ingresar arreglo y recibir "arreglo_ordenado"
     // REvisar que arreglo ordenado esté bien ordenado
@@ -213,7 +221,7 @@ void pruebas_heap_volumen(size_t volumen){
     heap_t* heap = heap_crear(aux_num_es_mayor);
 
     for (size_t i = 0; i < volumen; i++){
-        arreglo[i] = rand();
+        arreglo[i] = rand()%500;
         //printf("    Arreglo: %lu\n", arreglo[i]);
         heap_encolar(heap, &arreglo[i]);
     } // Hacer un print_test para verificar si el arreglo auxiliar se creó bien?
@@ -221,8 +229,11 @@ void pruebas_heap_volumen(size_t volumen){
     ultimo = heap_desencolar(heap);
     for (size_t j = 0; j < volumen-1; j++){
         actual = heap_desencolar(heap);
-        printf("    %lu\n", *(size_t*)actual);
-        if (*actual > * ultimo) todo_ok = false;
+        printf("ultimo:%lu    actual:%lu\n",*(size_t*)ultimo, *(size_t*)actual);
+        if (*actual > * ultimo){
+            printf("aca\n");
+            todo_ok = false;
+        }
         ultimo = actual; // Revisar
     }
     print_test("Las pruebas de volumen desencolan de mayor a menor", todo_ok);
@@ -233,20 +244,20 @@ void pruebas_heap_volumen(size_t volumen){
 // Llama a cada prueba
 void pruebas_abb_estudiante(){
     /*
-    */
     pruebas_heap_vacio(); // :)
     pruebas_heap_un_elemento(); // :)
     pruebas_heap_varios_elem(); // :)
     pruebas_heap_destruir_NULL(); // :)
     pruebas_heap_destruir_NONULL(); // :)
+    */
+    /*
     pruebas_heap_volumen(100); // Redimension
 
     
-    /*
     pruebas_heap_volumen(100000); // Redimension
     pruebas_heap_copiar_arreglo(); // Ordenar arreglo
-    pruebas_heapsort(); // Ordenar arreglo
     */
+    pruebas_heapsort(); // Ordenar arreglo
 }
 
 #ifndef CORRECTOR // Para que no dé conflicto con el main() del corrector.
