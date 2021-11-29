@@ -132,45 +132,26 @@ void aux_downheap(void* arreglo[],size_t n, size_t pos_padre,cmp_func_t cmp){
 
 
 // Funcion auxiliar para heapify
-void heapify(void *arreglo[], size_t cant, cmp_func_t cmp,size_t actual){
+void heapify(void *arreglo[], size_t cant, cmp_func_t cmp,size_t actual){ // REHACER
     printf("C136 Cant %lu\n", cant);
-    for (size_t i = cant-1; i >= 0 && i < cant; i--){
-        printf("C138 %lu\n", i);
+    for (size_t i = 0; i < cant; i++){ // && i < cant; i--){
+        printf("C138 %d\n", *(int*)arreglo[i]);
         aux_downheap(arreglo,cant,i,cmp);
+    }
+    for (int i = 0; i < cant; i++){
+        printf("C142 arr[%i] = %i\n", i, *(int*)arreglo[i]);
     }
 }
 
 
-void heap_sort(void *arr[], size_t cant, cmp_func_t cmp){
-
-    //printf("%lu\n", cant);
-    //printf("antes\n");
-    /*
-    for (int i = 0; i < cant; ++i){
-        printf("%i,", (*(int*)arr[i]));
-    }
-    */
+void heap_sort(void *arr[], size_t cant, cmp_func_t cmp){ // REVISAR TEORÍA
     heapify(arr,cant,cmp,0);
-    /*
-    printf("\ndespues\n");
-    for (int i = 0; i < cant; ++i){
-        printf("%i,", (*(int*)arr[i]));
-    }
-    */
 
     int pos_maximo = 0;
     for (int i = 0; i < cant-1; i++){
         aux_swap_generico(arr[pos_maximo],arr[cant-1-i]);
         aux_downheap(arr,cant,pos_maximo,cmp);
     }
-    /*
-    printf("\n");
-    printf("cant %lu\n", cant);
-    printf("despues de todo\n");
-    for (int i = 0; i < cant; ++i){
-        printf("%i,", (*(int*)arr[i]));
-    }
-    */
 }
 
 // Función auxiliar de heap_guardar y heap_borrar
@@ -189,12 +170,16 @@ heap_t *heap_crear_arr(void* arreglo[], size_t n, cmp_func_t cmp){
     heap_t* nuevo_heap = malloc(sizeof(heap_t));
     if (nuevo_heap == NULL) return NULL;
 
+    for (int i = 0; i < n; i++){
+        printf("C196 original arr[%i] = %i\n", i, *(int*)arreglo[i]);
+    }
+
     nuevo_heap->cmp = cmp;
     nuevo_heap->tam = CAP_INIC;
     nuevo_heap->datos = arreglo;
     nuevo_heap->cant = n;
     printf("C193\n");
-    heapify(arreglo,n,cmp,0);
+    heapify(arreglo, n, cmp, 0); // ASEGURARSE QUE QUEDE ORDENADO DESPUES DE LLAMAR HEAPIFY
     printf("C195\n");
     
     return nuevo_heap;

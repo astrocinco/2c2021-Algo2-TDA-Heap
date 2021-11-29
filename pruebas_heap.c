@@ -130,13 +130,14 @@ void pruebas_heap_copiar_arreglo(){
     print_test("La cantidad es 6", heap_cantidad(heap) == 6);
     printf("La cantidad es %lu\n", heap_cantidad(heap));
     //print_test("El máximo es correcto", *(size_t*)heap_ver_max(heap) == *(size_t*)arreglo_p_ints_cor[0]);
-    printf("El maximo es %lu\n", *(size_t*)heap_ver_max(heap));
+    printf("El maximo es %i\n", *(int*)heap_ver_max(heap));
 
     bool todo_ok = true;
     int* sacado;
     for (int k = 0; k < 6; k++){
         sacado = heap_desencolar(heap);
         if (sacado != arreglo_p_ints_cor[k]) todo_ok = false;
+        printf("    Salió %i\n", *sacado);
     }
     print_test("Salen todos los elementos de forma ordenada", todo_ok);
 
