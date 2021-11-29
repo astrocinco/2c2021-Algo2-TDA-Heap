@@ -10,7 +10,12 @@
 int aux_num_es_mayor(const void* dato1, const void* dato2){
     size_t num1 = *(size_t*) dato1;
     size_t num2 = *(size_t*) dato2;
-    if (num1 > num2) return 1;
+    if (num1 == num2){
+        return 0;
+    }
+    if (num1 > num2){
+        return 1;
+    }
     return -1;
 }
 
@@ -30,7 +35,9 @@ int aux_arreglo_es_mayor(const void* arreglo_1, const void* arreglo_2){
 int comparar_char(const void* primero, const void* segundo){
     const char* pri = primero;
     const char* seg = segundo;
-
+    if (*pri == *seg){
+        return 0;
+    }
     if ((*pri) > (*seg)){
         return 1;
     }
@@ -137,21 +144,20 @@ void pruebas_heap_copiar_arreglo(){
 
 void pruebas_heapsort(){
     printf("\nPRUEBAS HEAP: Heapsort\n");
-    
 
     bool todo_ok = true;
-    int arreglo_int[8] = {1, 3, 9, 7};
-    int arreglo_cor[8] = {9, 7, 3, 1};
+    int arreglo_int[8] = {1, 3, 9, 7,5,6,8};
 
+    int arreglo_cor[8] = {9,8, 7,6,5, 3, 1};
 
 
     void* arreglo_pu[8];
-    for (int i = 0; i < 4; i++){ // Tal vez esto tenga que ser un 4
+    for (int i = 0; i < 7; i++){ // Tal vez esto tenga que ser un 4
         arreglo_pu[i] = &arreglo_int[i];
     }
-    heap_sort(arreglo_pu, 4, aux_num_es_mayor);
+    heap_sort(arreglo_pu, 7, aux_num_es_mayor);
 
-    for (int j = 0; j < 4; j++){
+    for (int j = 0; j < 7; j++){
         printf("%i   xxDD\n", (*(int*)arreglo_pu[j]));
         if ( (*(int*)arreglo_pu[j]) != arreglo_cor[j]){
             todo_ok = false; 
@@ -241,22 +247,52 @@ void pruebas_heap_volumen(size_t volumen){
     heap_destruir(heap, NULL);
 }
 
+void pruebas_upheap_downheap(){
+    heap_t* heap = heap_crear(comparar_char);
+
+    void* a = "a";
+    void* b = "b";
+    void* c = "c";
+    void* d = "d";
+    void* e = "e";
+    void* f = "f";
+    void* g = "g";
+
+    print_test("se encola b",heap_encolar(heap,b));
+    print_test("se encola f",heap_encolar(heap,f));
+    print_test("se encola a",heap_encolar(heap,a));
+    print_test("se encola c",heap_encolar(heap,c));
+    print_test("se encola g",heap_encolar(heap,g));
+    print_test("se encola e",heap_encolar(heap,e));
+    print_test("se encola d",heap_encolar(heap,d));
+
+    void* arreglo[7] = {g,f,b,e,c,a,d};
+
+    heap_sort(arreglo,7,comparar_char);
+
+    for (int i = 0; i < 7; ++i){
+        printf("%c\n", (*(char*)arreglo[i]));
+    }
+
+}
+
 // Llama a cada prueba
 void pruebas_abb_estudiante(){
+    /*
+    */
     /*
     pruebas_heap_vacio(); // :)
     pruebas_heap_un_elemento(); // :)
     pruebas_heap_varios_elem(); // :)
     pruebas_heap_destruir_NULL(); // :)
     pruebas_heap_destruir_NONULL(); // :)
-    */
-    /*
     pruebas_heap_volumen(100); // Redimension
 
     
     pruebas_heap_volumen(100000); // Redimension
     pruebas_heap_copiar_arreglo(); // Ordenar arreglo
     */
+    //pruebas_upheap_downheap();
     pruebas_heapsort(); // Ordenar arreglo
 }
 

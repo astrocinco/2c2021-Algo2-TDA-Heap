@@ -58,6 +58,7 @@ heap_t *heap_crear(cmp_func_t cmp){
 bool aux_es_mayor(void* arreglo[],size_t n, size_t posicion1, size_t posicion2,cmp_func_t cmp){
     //printf("C59 %lu %lu\n", posicion1, posicion2);
     if (posicion1 == posicion2) return true;
+
     if (posicion1 > n || posicion2 > n){
         printf("Kawabunga\n");
         return false; // ARREGLAR. LEE DONDE NO HAY NADA
@@ -118,46 +119,56 @@ void aux_downheap(void* arreglo[],size_t n, size_t pos_padre,cmp_func_t cmp){
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 // Funcion auxiliar para heapify
 void heapify(void *arreglo[], size_t cant, cmp_func_t cmp,size_t actual){
-   
-    size_t izq = (2 * actual) +1;
-    size_t der = (2 * actual) +2;
+    for (size_t i = cant-1; i >= 0 ; i--){
+        aux_downheap(arreglo,cant,i,cmp);
+    }
+}
 
-    if (izq < cant){
-        heapify(arreglo,cant,cmp,izq);
-    }
-    if (der < cant){
-        heapify(arreglo,cant, cmp,der);
-    }
-    if (actual <cant){
-        aux_downheap(arreglo,cant,actual,cmp);
-    }
-}//no anda, ni siquiera se si esta bien planteado
 
 void heap_sort(void *arr[], size_t cant, cmp_func_t cmp){
 
-    printf("%lu\n", cant);
-    printf("antes\n");
+    //printf("%lu\n", cant);
+    //printf("antes\n");
+    /*
     for (int i = 0; i < cant; ++i){
         printf("%i,", (*(int*)arr[i]));
     }
+    */
     heapify(arr,cant,cmp,0);
+    /*
     printf("\ndespues\n");
     for (int i = 0; i < cant; ++i){
         printf("%i,", (*(int*)arr[i]));
     }
+    */
+
     int pos_maximo = 0;
     for (int i = 0; i < cant-1; i++){
         aux_swap_generico(arr[pos_maximo],arr[cant-1-i]);
         aux_downheap(arr,cant,pos_maximo,cmp);
     }
+    /*
     printf("\n");
     printf("cant %lu\n", cant);
     printf("despues de todo\n");
     for (int i = 0; i < cant; ++i){
         printf("%i,", (*(int*)arr[i]));
     }
+    */
 }
 
 // Función auxiliar de heap_guardar y heap_borrar
@@ -179,8 +190,10 @@ heap_t *heap_crear_arr(void* arreglo[], size_t n, cmp_func_t cmp){
     nuevo_heap->cmp = cmp;
     nuevo_heap->tam = CAP_INIC;
     nuevo_heap->datos = arreglo;
+    printf("asdasd\n");
     heapify(arreglo,n,cmp,0);
-
+    printf("asdasd\n");
+    
     return nuevo_heap;
 }
 
@@ -260,7 +273,6 @@ void debug_heap(const heap_t* heap){
         printf("%d", *(int*)arreglo_p[i]);
     }
     printf("\n Swap \n");
-
     aux_swap_generico(&arreglo_p[1], &arreglo_p[4]);
     for (int i = 0; i < 10; i++){
         printf("%d", *(int*)arreglo_p[i]);
