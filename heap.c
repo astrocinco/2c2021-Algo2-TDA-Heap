@@ -129,7 +129,7 @@ void aux_downheap(void* arreglo[],size_t n, size_t pos_padre,cmp_func_t cmp){
 
 
 
-
+// https://www.youtube.com/watch?v=gc4MdD10w7w&t=6s
 
 // Funcion auxiliar para heapify
 void heapify(void *arreglo[], size_t cant, cmp_func_t cmp,size_t actual){ // REHACER
