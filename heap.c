@@ -133,7 +133,9 @@ void aux_downheap(void* arreglo[],size_t n, size_t pos_padre,cmp_func_t cmp){
 
 // Funcion auxiliar para heapify
 void heapify(void *arreglo[], size_t cant, cmp_func_t cmp,size_t actual){
-    for (size_t i = cant-1; i >= 0 ; i--){
+    printf("C136 Cant %lu\n", cant);
+    for (size_t i = cant-1; i >= 0 && i < cant; i--){
+        printf("C138 %lu\n", i);
         aux_downheap(arreglo,cant,i,cmp);
     }
 }
@@ -190,9 +192,10 @@ heap_t *heap_crear_arr(void* arreglo[], size_t n, cmp_func_t cmp){
     nuevo_heap->cmp = cmp;
     nuevo_heap->tam = CAP_INIC;
     nuevo_heap->datos = arreglo;
-    printf("asdasd\n");
+    nuevo_heap->cant = n;
+    printf("C193\n");
     heapify(arreglo,n,cmp,0);
-    printf("asdasd\n");
+    printf("C195\n");
     
     return nuevo_heap;
 }

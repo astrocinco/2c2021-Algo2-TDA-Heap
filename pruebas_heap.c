@@ -115,24 +115,26 @@ void pruebas_heap_copiar_arreglo(){
     printf("\nPRUEBAS HEAP: Copiar arreglo\n");
     int arreglo_ints_cor[10] = {5, 4, 3, 2, 1, 0};
     int* arreglo_p_ints_cor[10];
-    for (int j = 0; j < 10; j++){ // Tal vez esto tenga que ser un 6
+    for (int j = 0; j < 6; j++){ // Tal vez esto tenga que ser un 6
         arreglo_p_ints_cor[j] = &arreglo_ints_cor[j];
     }
 
     int arreglo_ints[10] = {3, 5, 4, 0, 1, 2};
     void* arreglo_p_ints[10];
-    for (int i = 0; i < 10; i++){ // Tal vez esto tenga que ser un 6
+    for (int i = 0; i < 6; i++){ // Tal vez esto tenga que ser un 6
         arreglo_p_ints[i] = &arreglo_ints[i];
     }
 
-    heap_t* heap = heap_crear_arr(arreglo_p_ints, 10, aux_num_es_mayor);
+    heap_t* heap = heap_crear_arr(arreglo_p_ints, 6, aux_num_es_mayor);
 
     print_test("La cantidad es 6", heap_cantidad(heap) == 6);
-    print_test("El máximo es correcto", heap_ver_max(heap) == arreglo_p_ints_cor[0]);
+    printf("La cantidad es %lu\n", heap_cantidad(heap));
+    //print_test("El máximo es correcto", *(size_t*)heap_ver_max(heap) == *(size_t*)arreglo_p_ints_cor[0]);
+    printf("El maximo es %lu\n", *(size_t*)heap_ver_max(heap));
 
     bool todo_ok = true;
     int* sacado;
-    for (int k = 0; k < 10; k++){
+    for (int k = 0; k < 6; k++){
         sacado = heap_desencolar(heap);
         if (sacado != arreglo_p_ints_cor[k]) todo_ok = false;
     }
@@ -279,21 +281,21 @@ void pruebas_upheap_downheap(){
 // Llama a cada prueba
 void pruebas_abb_estudiante(){
     /*
-    */
-    /*
     pruebas_heap_vacio(); // :)
     pruebas_heap_un_elemento(); // :)
     pruebas_heap_varios_elem(); // :)
     pruebas_heap_destruir_NULL(); // :)
     pruebas_heap_destruir_NONULL(); // :)
-    pruebas_heap_volumen(100); // Redimension
-
-    
-    pruebas_heap_volumen(100000); // Redimension
-    pruebas_heap_copiar_arreglo(); // Ordenar arreglo
     */
-    //pruebas_upheap_downheap();
-    pruebas_heapsort(); // Ordenar arreglo
+    pruebas_heap_copiar_arreglo(); // Ordenar arreglo
+
+
+    /*
+    pruebas_heap_volumen(100); // Redimension
+    pruebas_heap_volumen(100000); // Redimension
+    pruebas_heapsort(); // Ordenar arreglo    
+    pruebas_upheap_downheap();
+    */
 }
 
 #ifndef CORRECTOR // Para que no dé conflicto con el main() del corrector.
