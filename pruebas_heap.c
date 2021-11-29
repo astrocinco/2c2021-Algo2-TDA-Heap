@@ -128,8 +128,8 @@ void pruebas_heap_copiar_arreglo(){
     heap_t* heap = heap_crear_arr(arreglo_p_ints, 6, aux_num_es_mayor);
 
     print_test("La cantidad es 6", heap_cantidad(heap) == 6);
-    printf("La cantidad es %lu\n", heap_cantidad(heap));
-    //print_test("El máximo es correcto", *(size_t*)heap_ver_max(heap) == *(size_t*)arreglo_p_ints_cor[0]);
+    //printf("La cantidad es %lu\n", heap_cantidad(heap));
+    print_test("El máximo es correcto", *(int*)heap_ver_max(heap) == *(int*)arreglo_p_ints_cor[0]);
     printf("El maximo es %i\n", *(int*)heap_ver_max(heap));
 
     bool todo_ok = true;
