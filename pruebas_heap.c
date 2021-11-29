@@ -124,20 +124,24 @@ void pruebas_heap_muchos_elem(){
     heap_t* heap = heap_crear(aux_num_es_mayor);
 
     print_test("Puedo encolar 5", heap_encolar(heap, &num_5));
+    debug_heap(heap);
     print_test("Puedo encolar 2", heap_encolar(heap, &num_2));
     print_test("Puedo encolar 4", heap_encolar(heap, &num_4));
     print_test("Puedo encolar 6", heap_encolar(heap, &num_6));
+    debug_heap(heap);
     print_test("El heap no está vacío", !heap_esta_vacio(heap));
     print_test("La cantidad es 2", heap_cantidad(heap) == 4); 
     print_test("Puedo encolar 1", heap_encolar(heap, &num_1));
     print_test("Puedo encolar 3", heap_encolar(heap, &num_3));
     print_test("Puedo encolar 7", heap_encolar(heap, &num_7));
+    debug_heap(heap);
     print_test("La cantidad es 4", heap_cantidad(heap) == 7);
     int* tope = heap_ver_max(heap);
     print_test("El máximo elemento es 7", *tope == num_7);
     
     debug_heap(heap);
     // Sacar uno por uno
+    printf("\n");
     int* sacado = heap_desencolar(heap);
     print_test("Salió 7", *sacado == num_7);
     debug_heap(heap);
