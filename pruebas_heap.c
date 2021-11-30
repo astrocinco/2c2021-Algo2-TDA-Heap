@@ -92,14 +92,14 @@ void pruebas_heap_varios_elem(){
     int* tope = heap_ver_max(heap);
     print_test("El máximo elemento es 4", *tope == num_4);
     
-    debug_heap(heap);
+    //debug_heap(heap);
     // Sacar uno por uno
     int* sacado = heap_desencolar(heap);
     print_test("Salió 4", *sacado == num_4);
-    debug_heap(heap);
+    //debug_heap(heap);
     sacado = heap_desencolar(heap);
     print_test("Salió 3", *sacado == num_3);
-    debug_heap(heap);
+    //debug_heap(heap);
     sacado = heap_desencolar(heap);
     print_test("Salió 2", *sacado == num_2);
     sacado = heap_desencolar(heap);
@@ -112,7 +112,7 @@ void pruebas_heap_varios_elem(){
 
 
 void pruebas_heap_muchos_elem(){
-    printf("\nPRUEBAS HEAP: Varios elementos\n");
+    printf("\nPRUEBAS HEAP: Muchos elementos\n");
     int num_1 = 1;
     int num_2 = 2;
     int num_3 = 3;
@@ -141,7 +141,7 @@ void pruebas_heap_muchos_elem(){
     
     //debug_heap(heap);
     // Sacar uno por uno
-    printf("\n");
+    //printf("\n");
     int* sacado = heap_desencolar(heap);
     print_test("Salió 7", *sacado == num_7);
     //debug_heap(heap);
@@ -339,12 +339,12 @@ void pruebas_upheap_downheap(){
 // Llama a cada prueba
 void pruebas_abb_estudiante(){
     /*
-    pruebas_heap_vacio(); // :)
-    pruebas_heap_un_elemento(); // :)
     pruebas_heap_destruir_NULL(); // :)
     pruebas_heap_destruir_NONULL(); // :)
-    pruebas_heap_varios_elem(); // :)
     */
+    pruebas_heap_vacio(); // :)
+    pruebas_heap_un_elemento(); // :)
+    pruebas_heap_varios_elem(); // :)
     pruebas_heap_muchos_elem();
 
     /*
