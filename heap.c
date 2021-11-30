@@ -1,7 +1,3 @@
-// NOTAS INTRAEQUIPO -- BORRAR PARA ENTREGA
-// * No se si existe un estandar de resultados de notas de comparacion. Por ahora voy a usar que
-//   cmp(elem1, elem2) da negativo cuando elem1 es menor, y positivo cuando elem1 mayor (porque es así en strcmp).
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -64,10 +60,7 @@ bool aux_es_mayor(void *arreglo[], size_t n, size_t posicion1, size_t posicion2,
     void *elem_pos1 = arreglo[posicion1];
     void *elem_pos2 = arreglo[posicion2];
 
-    //printf("AuxEsMayor--> pos_1: %lu, pos_2: %lu\n", posicion1, posicion2);
-    //printf("AuxEsMayor--> arreglo[pos_1]: %i, arreglo[pos_2]: %i\n", *(int*)arreglo[posicion1], *(int*)arreglo[posicion2]);
     int resultado = cmp(elem_pos1, elem_pos2);
-    //printf("Resultado %i\n", resultado);
     return (resultado > 0);
 }
 
@@ -92,25 +85,12 @@ void aux_downheap(void *arreglo[], size_t n, size_t pos_padre, cmp_func_t cmp)
 {
     size_t pos_hijo_izq = (2 * pos_padre) + 1;
     size_t pos_hijo_der = (2 * pos_padre) + 2;
-    if (pos_padre == 0)
-        //printf("ESTAMOS LLEGANDO A CERO, arreglo[0]: %i\n", *(int *)arreglo[0]);
 
-    //printf("118----\n");
-    for (size_t i = 0; i < n; i++)
-    {
-        //printf("    Downheap %d\n", *(int *)arreglo[i]);
-    }
     // Revisar que ambas las posiciones están en el arreglo
-    if (pos_hijo_izq >= n)
-    {
-        // Ninguno de los dos hijos está en el arreglo. Terminar downheap
-        //printf("No hizo downheap con la pos %lu. Contenido: %i\n", pos_padre, *(int *)arreglo[pos_padre]);
-        return;
-    }
+    if (pos_hijo_izq >= n) return;
+
     // Revisar si DER está en el arreglo
-    if (pos_hijo_der >= n)
-    {
-        //printf("    C106\n");
+    if (pos_hijo_der >= n){
         // Der no está. Probar swap solo con IZQ
         if (aux_es_mayor(arreglo, n, pos_hijo_izq, pos_padre, cmp))
         {
@@ -119,18 +99,13 @@ void aux_downheap(void *arreglo[], size_t n, size_t pos_padre, cmp_func_t cmp)
         }
     }
     // Tanto IZQ como DER son swaps posibles
-    //printf("    C114\n");
     size_t pos_mayor_hijo = pos_hijo_izq;
     if (aux_es_mayor(arreglo, n, pos_hijo_der, pos_hijo_izq, cmp))
     {
         pos_mayor_hijo = pos_hijo_der; // Si se cumple este if el mayor hijo es el derecho
-        //printf("Pos padre es %lu\n", pos_padre);
     }
-    //printf("El hijo mayor de %i vale %i\n", *(int *)arreglo[pos_padre], *(int *)arreglo[pos_mayor_hijo]);
-    //printf("121\n");
     if (aux_es_mayor(arreglo, n, pos_mayor_hijo, pos_padre, cmp))
     {
-        //printf("    C120\n");
         aux_swap_generico(&arreglo[pos_padre], &arreglo[pos_mayor_hijo]);
         pos_padre = pos_mayor_hijo;
     }
@@ -143,7 +118,7 @@ void aux_downheap(void *arreglo[], size_t n, size_t pos_padre, cmp_func_t cmp)
 // https://www.youtube.com/watch?v=gc4MdD10w7w&t=6s
 // Funcion auxiliar para heapify
 void heapify(void *arreglo[], size_t cant, cmp_func_t cmp)
-{ // REHACER
+{ 
     for (size_t i = cant - 1; i >= 0 && i < cant; i--)
     {
         aux_downheap(arreglo, cant, i, cmp);
@@ -163,7 +138,6 @@ void heap_sort(void* arr[], size_t cant, cmp_func_t cmp){
 // Función auxiliar de heap_guardar y heap_borrar
 void aux_redimensionar(heap_t *heap, size_t nueva_cap)
 {
-    //printf("REDIMENSION. Vieja: %lu, nueva: %lu\n", heap->tam, nueva_cap);
     if (nueva_cap < CAP_INIC)
         nueva_cap = CAP_INIC;
 
@@ -185,20 +159,17 @@ heap_t *heap_crear_arr(void *arreglo[], size_t n, cmp_func_t cmp)
     nuevo_heap->datos = arreglo;
     nuevo_heap->cant = n;
     heapify(arreglo, n, cmp); // ASEGURARSE QUE QUEDE ORDENADO DESPUES DE LLAMAR HEAPIFY
-    //printf("---165 INTENTÓ HEAPIFY\n");
 
     return nuevo_heap;
 }
 
 bool heap_esta_vacio(const heap_t *heap)
 {
-    //printf("C152 %p\n", &heap->cant);
     return heap->cant == 0;
 }
 
 size_t heap_cantidad(const heap_t *heap)
 {
-    //printf("C157 %lu\n", heap->cant);
     size_t valor = heap->cant;
     return valor;
 }
@@ -207,7 +178,6 @@ bool heap_encolar(heap_t *heap, void *elem)
 {
     heap->datos[heap->cant] = elem;
     heap->cant++;
-    //printf("C165 %lu\n", heap->cant);
     if (heap->cant == 1)
         return true;
     size_t pos_nuevo = heap->cant - 1;
@@ -215,12 +185,10 @@ bool heap_encolar(heap_t *heap, void *elem)
 
     if (!aux_es_mayor(heap->datos, heap->cant, pos_padre, pos_nuevo, heap->cmp))
     {
-        //printf("Mando a UPHEAP\n");
         aux_upheap(heap->datos, heap->cant, pos_padre, pos_nuevo, heap->cmp);
     }
     if (heap->cant == heap->tam)
         aux_redimensionar(heap, heap->tam * FACTOR_NVA_CAP);
-    //printf("C178 %lu %p\n", heap->cant, &heap->cant);
     return true;
 }
 
@@ -260,47 +228,3 @@ void heap_destruir(heap_t *heap, void (*destruir_elemento)(void *e))
     free(heap);
 }
 // FIN PRIMITIVAS HEAP
-
-// // Funcion de debug. -- BORRAR PARA ENTREGA
-// void debug_heap(const heap_t *heap)
-// {
-//     printf("\nDEBUGGER\n");
-
-//     /*
-//     int arreglo[10] = {0, 1, 2, 3, 4, 5};
-//     void* arreglo_p[10];
-//     for (int i = 0; i < 10; i++){
-//         arreglo_p[i] = &arreglo[i];
-//         printf("%d", *(int*)arreglo_p[i]);
-//     }
-//     printf("\n Swap \n");
-//     aux_swap_generico(&arreglo_p[1], &arreglo_p[4]);
-//     for (int i = 0; i < 10; i++){
-//         printf("%d", *(int*)arreglo_p[i]);
-//     }
-//     printf("\n");
-//     */
-
-//     //printf("Puntero heap->cant %p\n", &heap->cant);
-//     bool es_heap = true;
-//     void **arreglo = heap->datos;
-//     for (int i = heap->cant - 1; i >= 0; i--)
-//     {
-//         int *hijo = arreglo[i];
-//         int *padr = arreglo[(i - 1) / 2];
-
-//         if (*hijo > *padr)
-//             es_heap = false;
-//     }
-
-//     printf("PRINTER DEBUGGER\n");
-//     for (size_t i = 0; i < heap->cant; i++)
-//     {
-//         printf("    %d\n", *(int *)heap->datos[i]);
-//     }
-//     if (es_heap)
-//         printf("ES HEAP\n");
-//     if (!es_heap)
-//         printf(" ---- NO ES HEAP ----\n");
-//     printf("FIN PRINTER DEBUGGER\n\n");
-// }
