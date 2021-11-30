@@ -3,7 +3,6 @@
 #include "testing.h"
 #include <string.h>
 #include "heap.h"
-//#define RAND_MAX 1000
 
 
 // Retorna 1 si el primer valor es mayor que el segundo
@@ -19,18 +18,6 @@ int aux_num_es_mayor(const void* dato1, const void* dato2){
     return -1;
 }
 
-
-// Retorna 1 si el primer valor del arreglo1 es mayor que el primer valor del arreglo2
-/*
-int aux_arreglo_es_mayor(const void* arreglo_1, const void* arreglo_2){
-    int** arreglo_11 = arreglo_1;
-    int** arreglo_22 = arreglo_2;
-    if (arreglo_11[0] > arreglo_22[0]){
-        return 1;
-    }
-    return -1;
-}
-*/
 
 int comparar_char(const void* primero, const void* segundo){
     const char* pri = primero;
