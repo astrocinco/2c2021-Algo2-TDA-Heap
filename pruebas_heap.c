@@ -178,7 +178,7 @@ void pruebas_heap_copiar_arreglo(){
 
     int arreglo_ints_cor[10] = {6, 5, 3, 2, 1, 0};
     int* arreglo_p_ints_cor[10];
-    for (int j = 0; j < 6; j++){ // Tal vez esto tenga que ser un 6
+    for (int j = 0; j < 6; j++){ // Tal vez esto tenga que ser un 6.
         arreglo_p_ints_cor[j] = &arreglo_ints_cor[j];
     }
 

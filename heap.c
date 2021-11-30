@@ -1,6 +1,6 @@
 // NOTAS INTRAEQUIPO -- BORRAR PARA ENTREGA
 // * No se si existe un estandar de resultados de notas de comparacion. Por ahora voy a usar que
-//   cmp(elem1, elem2) da negativo cuando elem1 es menor, y positivo cuando elem1 mayor (porque es así en strcmp)
+//   cmp(elem1, elem2) da negativo cuando elem1 es menor, y positivo cuando elem1 mayor (porque es así en strcmp).
 
 #include <stdlib.h>
 #include <stdio.h>
