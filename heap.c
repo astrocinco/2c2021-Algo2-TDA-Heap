@@ -11,8 +11,7 @@
 
 
 // Funcion auxiliar de swap. Recibe punteros (llamar con &)
-bool aux_swap_generico(void *x, void *y)
-{
+bool aux_swap_generico(void *x, void *y){
     void *aux = malloc(sizeof(void *));
     if (aux == NULL) return false;
 
@@ -25,8 +24,7 @@ bool aux_swap_generico(void *x, void *y)
 
 
 // STRUCTS
-typedef struct heap
-{
+typedef struct heap{
     void **datos;
     size_t cant;
     size_t tam;
@@ -35,8 +33,7 @@ typedef struct heap
 
 
 // PRIMITIVAS HEAP
-heap_t *heap_crear(cmp_func_t cmp)
-{
+heap_t *heap_crear(cmp_func_t cmp){
     heap_t *nuevo_heap = malloc(sizeof(heap_t));
     if (nuevo_heap == NULL) return NULL;
 
@@ -80,8 +77,7 @@ void aux_upheap(void *arreglo[], size_t n, size_t pos_padre, size_t pos_inferior
 }
 
 
-void aux_downheap(void *arreglo[], size_t n, size_t pos_padre, cmp_func_t cmp)
-{
+void aux_downheap(void *arreglo[], size_t n, size_t pos_padre, cmp_func_t cmp){
     size_t pos_hijo_izq = (2 * pos_padre) + 1;
     size_t pos_hijo_der = (2 * pos_padre) + 2;
 
@@ -147,7 +143,7 @@ heap_t *heap_crear_arr(void *arreglo[], size_t n, cmp_func_t cmp){
     nuevo_heap->tam = CAP_INIC;
     nuevo_heap->datos = arreglo;
     nuevo_heap->cant = n;
-    heapify(arreglo, n, cmp); // ASEGURARSE QUE QUEDE ORDENADO DESPUES DE LLAMAR HEAPIFY
+    heapify(arreglo, n, cmp); 
 
     return nuevo_heap;
 }
