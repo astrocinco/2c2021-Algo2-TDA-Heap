@@ -35,7 +35,7 @@ void heap_sort(void *elementos[], size_t cant, cmp_func_t cmp);
 typedef struct heap heap_t;
 
 // FUNCION DE DEBUGGING
-void debug_heap(const heap_t* heap);
+//void debug_heap(const heap_t* heap);
 
 /* Crea un heap. Recibe como único parámetro la función de comparación a
  * utilizar. Devuelve un puntero al heap, el cual debe ser destruido con

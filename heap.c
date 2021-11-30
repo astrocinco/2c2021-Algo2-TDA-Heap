@@ -144,7 +144,7 @@ void aux_downheap(void *arreglo[], size_t n, size_t pos_padre, cmp_func_t cmp)
 // Funcion auxiliar para heapify
 void heapify(void *arreglo[], size_t cant, cmp_func_t cmp)
 { // REHACER
-    for (int i = cant - 1; i >= 0; i--)
+    for (size_t i = cant - 1; i >= 0 && i < cant; i--)
     {
         aux_downheap(arreglo, cant, i, cmp);
     }
@@ -184,10 +184,8 @@ heap_t *heap_crear_arr(void *arreglo[], size_t n, cmp_func_t cmp)
     nuevo_heap->tam = CAP_INIC;
     nuevo_heap->datos = arreglo;
     nuevo_heap->cant = n;
-    debug_heap(nuevo_heap);
     heapify(arreglo, n, cmp); // ASEGURARSE QUE QUEDE ORDENADO DESPUES DE LLAMAR HEAPIFY
     //printf("---165 INTENTÓ HEAPIFY\n");
-    debug_heap(nuevo_heap);
 
     return nuevo_heap;
 }
@@ -263,46 +261,46 @@ void heap_destruir(heap_t *heap, void (*destruir_elemento)(void *e))
 }
 // FIN PRIMITIVAS HEAP
 
-// Funcion de debug. -- BORRAR PARA ENTREGA
-void debug_heap(const heap_t *heap)
-{
-    printf("\nDEBUGGER\n");
+// // Funcion de debug. -- BORRAR PARA ENTREGA
+// void debug_heap(const heap_t *heap)
+// {
+//     printf("\nDEBUGGER\n");
 
-    /*
-    int arreglo[10] = {0, 1, 2, 3, 4, 5};
-    void* arreglo_p[10];
-    for (int i = 0; i < 10; i++){
-        arreglo_p[i] = &arreglo[i];
-        printf("%d", *(int*)arreglo_p[i]);
-    }
-    printf("\n Swap \n");
-    aux_swap_generico(&arreglo_p[1], &arreglo_p[4]);
-    for (int i = 0; i < 10; i++){
-        printf("%d", *(int*)arreglo_p[i]);
-    }
-    printf("\n");
-    */
+//     /*
+//     int arreglo[10] = {0, 1, 2, 3, 4, 5};
+//     void* arreglo_p[10];
+//     for (int i = 0; i < 10; i++){
+//         arreglo_p[i] = &arreglo[i];
+//         printf("%d", *(int*)arreglo_p[i]);
+//     }
+//     printf("\n Swap \n");
+//     aux_swap_generico(&arreglo_p[1], &arreglo_p[4]);
+//     for (int i = 0; i < 10; i++){
+//         printf("%d", *(int*)arreglo_p[i]);
+//     }
+//     printf("\n");
+//     */
 
-    //printf("Puntero heap->cant %p\n", &heap->cant);
-    bool es_heap = true;
-    void **arreglo = heap->datos;
-    for (int i = heap->cant - 1; i >= 0; i--)
-    {
-        int *hijo = arreglo[i];
-        int *padr = arreglo[(i - 1) / 2];
+//     //printf("Puntero heap->cant %p\n", &heap->cant);
+//     bool es_heap = true;
+//     void **arreglo = heap->datos;
+//     for (int i = heap->cant - 1; i >= 0; i--)
+//     {
+//         int *hijo = arreglo[i];
+//         int *padr = arreglo[(i - 1) / 2];
 
-        if (*hijo > *padr)
-            es_heap = false;
-    }
+//         if (*hijo > *padr)
+//             es_heap = false;
+//     }
 
-    printf("PRINTER DEBUGGER\n");
-    for (size_t i = 0; i < heap->cant; i++)
-    {
-        printf("    %d\n", *(int *)heap->datos[i]);
-    }
-    if (es_heap)
-        printf("ES HEAP\n");
-    if (!es_heap)
-        printf(" ---- NO ES HEAP ----\n");
-    printf("FIN PRINTER DEBUGGER\n\n");
-}
+//     printf("PRINTER DEBUGGER\n");
+//     for (size_t i = 0; i < heap->cant; i++)
+//     {
+//         printf("    %d\n", *(int *)heap->datos[i]);
+//     }
+//     if (es_heap)
+//         printf("ES HEAP\n");
+//     if (!es_heap)
+//         printf(" ---- NO ES HEAP ----\n");
+//     printf("FIN PRINTER DEBUGGER\n\n");
+// }

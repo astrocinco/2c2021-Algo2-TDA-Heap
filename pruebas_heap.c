@@ -196,7 +196,7 @@ void pruebas_heap_copiar_arreglo(){
     //printf("El maximo es %i\n", *(int*)heap_ver_max(heap));
     
     //printf("            P198\n");
-    debug_heap(heap);
+    //debug_heap(heap);
 
     bool todo_ok = true;
     int* sacado;
@@ -315,7 +315,7 @@ void pruebas_heap_volumen(size_t volumen){
 
 
 // Llama a cada prueba
-void pruebas_abb_estudiante(){
+void pruebas_heap_estudiante(){
     /*
     */
     pruebas_heap_vacio(); // :)
@@ -326,7 +326,6 @@ void pruebas_abb_estudiante(){
     pruebas_heap_destruir_NONULL(); // :)
     pruebas_heap_copiar_arreglo(); // :)
     pruebas_heapsort(); // :)    
-
     pruebas_heap_volumen(100); // :)
     pruebas_heap_volumen(10000); // :)
     /*
@@ -336,7 +335,7 @@ void pruebas_abb_estudiante(){
 #ifndef CORRECTOR // Para que no dé conflicto con el main() del corrector.
 
 int main(void){
-	pruebas_abb_estudiante();
+	pruebas_heap_estudiante();
 	return failure_count() > 0; // Indica si falló alguna prueba.
 }
 
