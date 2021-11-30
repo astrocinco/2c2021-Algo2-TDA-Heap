@@ -187,7 +187,7 @@ void *heap_desencolar(heap_t *heap){
 }
 
 void *heap_ver_max(const heap_t *heap){
-    if (heap->cant == 0) return NULL;
+    if (heap_esta_vacio(heap)) return NULL;
     return heap->datos[0];
 }
 
