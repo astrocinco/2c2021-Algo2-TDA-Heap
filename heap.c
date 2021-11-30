@@ -141,9 +141,16 @@ heap_t *heap_crear_arr(void *arreglo[], size_t n, cmp_func_t cmp){
 
     nuevo_heap->cmp = cmp;
     nuevo_heap->tam = CAP_INIC;
-    nuevo_heap->datos = arreglo;
+
+    nuevo_heap->datos = malloc(nuevo_heap->tam * sizeof(void *));
+    if (nuevo_heap->datos == NULL) return NULL;
+
+    for (size_t i = 0; i < n; i++){
+        nuevo_heap->datos[i] = arreglo[i];
+    }
+
     nuevo_heap->cant = n;
-    heapify(arreglo, n, cmp); 
+    heapify(nuevo_heap->datos, n, cmp); 
 
     return nuevo_heap;
 }

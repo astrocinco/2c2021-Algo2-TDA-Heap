@@ -170,6 +170,7 @@ void pruebas_heap_copiar_arreglo(){
     }
     print_test("Salen todos los elementos de forma ordenada", todo_ok);
     
+    free(arreglo_p_ints);
     heap_destruir(heap, NULL);
 }
 
