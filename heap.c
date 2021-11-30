@@ -155,13 +155,22 @@ void heapify(void *arreglo[], size_t cant, cmp_func_t cmp, size_t actual)
 
 void heap_sort(void *arr[], size_t cant, cmp_func_t cmp)
 { // REVISAR TEORÍA
+    // Impresora
+    for (size_t i = 0; i < cant; i++){
+        printf("    Heapsort A %d\n", *(int*)arr[i]);
+    }
     heapify(arr, cant, cmp, 0);
 
-    int pos_maximo = 0;
-    for (int i = 0; i < cant - 1; i++)
+    // Impresora
+    for (size_t i = 0; i < cant; i++){
+        printf("    Heapsort B %d\n", *(int*)arr[i]);
+    }
+
+    for (int i = 0; i < cant; i++) // Revisar -1 i < cant - 1;
     {
-        aux_swap_generico(arr[pos_maximo], arr[cant - 1 - i]);
-        aux_downheap(arr, cant, pos_maximo, cmp);
+        printf("Trabajando en %i\n", *(int*)arr[i]);
+        aux_swap_generico(arr[0], arr[cant - 1 - i]);
+        aux_downheap(arr, cant, 0, cmp);
     }
 }
 
