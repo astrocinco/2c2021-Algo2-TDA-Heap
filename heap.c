@@ -142,42 +142,28 @@ void aux_downheap(void *arreglo[], size_t n, size_t pos_padre, cmp_func_t cmp)
 
 // https://www.youtube.com/watch?v=gc4MdD10w7w&t=6s
 // Funcion auxiliar para heapify
-void heapify(void *arreglo[], size_t cant, cmp_func_t cmp, size_t actual)
+void heapify(void *arreglo[], size_t cant, cmp_func_t cmp)
 { // REHACER
     for (int i = cant - 1; i >= 0; i--)
     {
         aux_downheap(arreglo, cant, i, cmp);
     }
-    // for (size_t i = 0; i < cant; i++){
-    //     printf("    Heapify %d\n", *(int*)arreglo[i]);
-    // }
 }
 
-void heap_sort(void *arr[], size_t cant, cmp_func_t cmp)
-{ // REVISAR TEORÍA
-    // Impresora
-    for (size_t i = 0; i < cant; i++){
-        printf("    Heapsort A %d\n", *(int*)arr[i]);
-    }
-    heapify(arr, cant, cmp, 0);
 
-    // Impresora
-    for (size_t i = 0; i < cant; i++){
-        printf("    Heapsort B %d\n", *(int*)arr[i]);
-    }
-
-    for (int i = 0; i < cant; i++) // Revisar -1 i < cant - 1;
-    {
-        printf("Trabajando en %i\n", *(int*)arr[i]);
-        aux_swap_generico(arr[0], arr[cant - 1 - i]);
-        aux_downheap(arr, cant, 0, cmp);
+void heap_sort(void* arr[], size_t cant, cmp_func_t cmp){
+    heapify(arr, cant, cmp);
+    for (int i = 1; i < 7; i++){
+        aux_swap_generico(&arr[0], &arr[cant-i]);
+        aux_downheap(arr, cant-i, 0, cmp);
     }
 }
+
 
 // Función auxiliar de heap_guardar y heap_borrar
 void aux_redimensionar(heap_t *heap, size_t nueva_cap)
 {
-    printf("REDIMENSION. Vieja: %lu, nueva: %lu\n", heap->tam, nueva_cap);
+    //printf("REDIMENSION. Vieja: %lu, nueva: %lu\n", heap->tam, nueva_cap);
     if (nueva_cap < CAP_INIC)
         nueva_cap = CAP_INIC;
 
@@ -199,8 +185,8 @@ heap_t *heap_crear_arr(void *arreglo[], size_t n, cmp_func_t cmp)
     nuevo_heap->datos = arreglo;
     nuevo_heap->cant = n;
     debug_heap(nuevo_heap);
-    heapify(arreglo, n, cmp, 0); // ASEGURARSE QUE QUEDE ORDENADO DESPUES DE LLAMAR HEAPIFY
-    printf("---165 INTENTÓ HEAPIFY\n");
+    heapify(arreglo, n, cmp); // ASEGURARSE QUE QUEDE ORDENADO DESPUES DE LLAMAR HEAPIFY
+    //printf("---165 INTENTÓ HEAPIFY\n");
     debug_heap(nuevo_heap);
 
     return nuevo_heap;
