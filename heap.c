@@ -101,7 +101,7 @@ void aux_downheap(void* arreglo[],size_t n, size_t pos_padre,cmp_func_t cmp){
         aux_swap_generico(&arreglo[pos_padre], &arreglo[pos_hijo_izq]);
         pos_padre = pos_hijo_izq;
     } else if (pos_hijo_der < n){ // Ambos existen
-        if (aux_es_mayor(arreglo,n, pos_hijo_izq, pos_hijo_der,cmp)){ // Se elige el mayor de los dos
+        if (aux_es_mayor(arreglo, n, pos_hijo_izq, pos_hijo_der, cmp)){ // Se elige el mayor de los dos
             aux_swap_generico(&arreglo[pos_padre], &arreglo[pos_hijo_izq]); 
             // Acá izq es mayor que der
             pos_padre = pos_hijo_izq;
@@ -115,7 +115,7 @@ void aux_downheap(void* arreglo[],size_t n, size_t pos_padre,cmp_func_t cmp){
     } else {
         printf("ERROR AUX_DOWNHEAP NO DEBERÍA LLEGAR ACÁ");
     }
-    aux_downheap(arreglo,n, pos_padre,cmp);
+    aux_downheap(arreglo, n, pos_padre, cmp);
 }
 
 
@@ -219,11 +219,17 @@ bool heap_encolar(heap_t *heap, void *elem){
 void* heap_desencolar(heap_t *heap){
     if (heap_esta_vacio(heap)) return NULL;
 
+    printf("\n225\n");
+    debug_heap(heap);
     void* dato = heap->datos[0];
     heap->cant--; 
     if (heap->cant == 0) return dato;
     aux_swap_generico(&heap->datos[0], &heap->datos[heap->cant]);
+    printf("\n228\n");
+    debug_heap(heap);
     aux_downheap(heap->datos, heap->cant,0,heap->cmp);
+    printf("\n231\n");
+    debug_heap(heap);
 
     if (heap->cant < heap->tam / FACTOR_CARGA_MINIMA && heap->tam > CAP_INIC) aux_redimensionar(heap, heap->tam / FACTOR_NVA_CAP);
 
@@ -268,12 +274,21 @@ void debug_heap(const heap_t* heap){
     */
 
     //printf("Puntero heap->cant %p\n", &heap->cant);
-    
+    bool es_heap = true;
+    void** arreglo = heap->datos;
+    for (int i = heap->cant -1; i >= 0; i--){
+        int* hijo = arreglo[i];
+        int* padr = arreglo[(i-1) / 2];
+
+        if (*hijo > *padr) es_heap = false;
+    }
     
     printf("PRINTER DEBUGGER\n");
     for (size_t i = 0; i < heap->cant; i++){
         printf("    %d\n", *(int*)heap->datos[i]);
     }
+    if (es_heap) printf("ES HEAP\n");
+    if (!es_heap) printf(" ---- NO ES HEAP ----\n");
     printf("FIN PRINTER DEBUGGER\n");
     
 }
