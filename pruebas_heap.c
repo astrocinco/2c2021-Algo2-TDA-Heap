@@ -339,18 +339,18 @@ void pruebas_upheap_downheap(){
 // Llama a cada prueba
 void pruebas_abb_estudiante(){
     /*
-    pruebas_heap_destruir_NULL(); // :)
-    pruebas_heap_destruir_NONULL(); // :)
-    */
     pruebas_heap_vacio(); // :)
     pruebas_heap_un_elemento(); // :)
     pruebas_heap_varios_elem(); // :)
-    pruebas_heap_muchos_elem();
+    pruebas_heap_muchos_elem();// :)
+    pruebas_heap_destruir_NULL(); // :)
+    pruebas_heap_destruir_NONULL(); // :)
+    pruebas_heap_volumen(100); // :)
+    pruebas_heap_volumen(10000); // :)
+    */
 
     /*
     pruebas_heap_copiar_arreglo(); // Ordenar arreglo
-    pruebas_heap_volumen(100); // Redimension
-    pruebas_heap_volumen(100000); // Redimension
     pruebas_heapsort(); // Ordenar arreglo    
     pruebas_upheap_downheap();
     */

@@ -14,7 +14,6 @@
 #define FACTOR_CARGA_MINIMA 2
 
 
-// Funcion de algoritmo de ordenamiento heap_sort. No es parte del TDA-Heap
 
 // Funcion auxiliar de swap. Recibe punteros (llamar con &)
 bool aux_swap_generico(void* x, void* y) {
@@ -88,6 +87,7 @@ void aux_upheap(void* arreglo[],size_t n, size_t pos_padre, size_t pos_inferior,
 
 
 void aux_downheap(void* arreglo[],size_t n, size_t pos_padre, cmp_func_t cmp){
+    printf("    Downheap: pos_padre %lu\n", pos_padre);
     size_t pos_hijo_izq = (2 * pos_padre) +1;
     size_t pos_hijo_der = (2 * pos_padre) +2;
 
@@ -121,8 +121,10 @@ void aux_downheap(void* arreglo[],size_t n, size_t pos_padre, cmp_func_t cmp){
 // Funcion auxiliar para heapify
 void heapify(void* arreglo[], size_t cant, cmp_func_t cmp,size_t actual){ // REHACER
     for (int i = cant -1; i >= 0; i--){
-        printf("C137 %d\n", i);
         aux_downheap(arreglo, cant, i, cmp);
+    }
+    for (size_t i = 0; i < cant; i++){
+        printf("    Heapify %d\n", *(int*)arreglo[i]);
     }
 }
 
@@ -161,12 +163,10 @@ heap_t *heap_crear_arr(void* arreglo[], size_t n, cmp_func_t cmp){
     nuevo_heap->tam = CAP_INIC;
     nuevo_heap->datos = arreglo;
     nuevo_heap->cant = n;
-    //printf("C193\n");
+    debug_heap(nuevo_heap);
     heapify(arreglo, n, cmp, 0); // ASEGURARSE QUE QUEDE ORDENADO DESPUES DE LLAMAR HEAPIFY
-    //printf("C195\n");
-    for (int i = 0; i < n; i++){
-        //printf("C196 arr[%i] = %i\n", i, *(int*)arreglo[i]);
-    }
+    printf("---165\n");
+    debug_heap(nuevo_heap);
     
     return nuevo_heap;
 }
