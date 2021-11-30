@@ -8,8 +8,9 @@
 
 // Retorna 1 si el primer valor es mayor que el segundo
 int aux_num_es_mayor(const void* dato1, const void* dato2){
-    size_t num1 = *(size_t*) dato1;
-    size_t num2 = *(size_t*) dato2;
+    int num1 = *(int*) dato1;
+    int num2 = *(int*) dato2;
+    //printf("PAuxEsMayor Num1: %d. Num2: %d\n", num1, num2);
     if (num1 == num2){
         return 0;
     }
@@ -170,13 +171,18 @@ void pruebas_heap_muchos_elem(){
 
 void pruebas_heap_copiar_arreglo(){
     printf("\nPRUEBAS HEAP: Copiar arreglo\n");
-    int arreglo_ints_cor[10] = {5, 4, 3, 2, 1, 0};
+
+    // int numero_1 = 30;
+    // int numero_2 = 20;
+    // printf("PRUEBA CMP: %i\n", aux_num_es_mayor(&numero_1, &numero_2));
+
+    int arreglo_ints_cor[10] = {6, 5, 3, 2, 1, 0};
     int* arreglo_p_ints_cor[10];
     for (int j = 0; j < 6; j++){ // Tal vez esto tenga que ser un 6
         arreglo_p_ints_cor[j] = &arreglo_ints_cor[j];
     }
 
-    int arreglo_ints[10] = {3, 5, 4, 1, 0, 2};
+    int arreglo_ints[10] = {3, 2, 6, 1, 5, 0};
     void** arreglo_p_ints = malloc(sizeof(void*) * 10);
     for (int i = 0; i < 6; i++){ // Tal vez esto tenga que ser un 6
         arreglo_p_ints[i] = &arreglo_ints[i];
@@ -186,18 +192,21 @@ void pruebas_heap_copiar_arreglo(){
 
     print_test("La cantidad es 6", heap_cantidad(heap) == 6);
     //printf("La cantidad es %lu\n", heap_cantidad(heap));
-    //print_test("El máximo es correcto", *(int*)heap_ver_max(heap) == *(int*)arreglo_p_ints_cor[0]); // DESCOMENTAR
+    print_test("------------------El máximo es correcto", *(int*)heap_ver_max(heap) == *(int*)arreglo_p_ints_cor[0]); // DESCOMENTAR
     printf("El maximo es %i\n", *(int*)heap_ver_max(heap));
-    /*
+    
+    printf("            P198\n");
+    debug_heap(heap);
+
     bool todo_ok = true;
     int* sacado;
     for (int k = 0; k < 6; k++){
         sacado = heap_desencolar(heap);
-        if (sacado != arreglo_p_ints_cor[k]) todo_ok = false;
+        if (*sacado != *arreglo_p_ints_cor[k]) todo_ok = false;
         printf("    Salió %i\n", *sacado);
     }
     print_test("Salen todos los elementos de forma ordenada", todo_ok);
-    */
+    
     heap_destruir(heap, NULL);
 }
 
@@ -206,25 +215,21 @@ void pruebas_heapsort(){
     printf("\nPRUEBAS HEAP: Heapsort\n");
 
     bool todo_ok = true;
-    int arreglo_int[8] = {1, 3, 9, 7,5,6,8};
-
-    int arreglo_cor[8] = {9,8, 7,6,5, 3, 1};
-
+    int arreglo_int[8] = {1, 3, 9, 7, 5, 6, 8};
+    int arreglo_cor[8] = {9, 8, 7, 6, 5, 3, 1};
 
     void* arreglo_pu[8];
-    for (int i = 0; i < 4; i++){ // Tal vez esto tenga que ser un 4
+    for (int i = 0; i < 7; i++){ 
         arreglo_pu[i] = &arreglo_int[i];
     }
     heap_sort(arreglo_pu, 7, aux_num_es_mayor);
 
-    for (int j = 0; j < 4; j++){
+    for (int j = 0; j < 7; j++){
         printf("%i   xxDD\n", (*(int*)arreglo_pu[j]));
         if ( (*(int*)arreglo_pu[j]) != arreglo_cor[j]){
             todo_ok = false; 
         }
     }
-
-
 
     print_test("Heapsort ordenó correctamente el arreglo", todo_ok);
     // Ingresar arreglo y recibir "arreglo_ordenado"
@@ -345,13 +350,13 @@ void pruebas_abb_estudiante(){
     pruebas_heap_muchos_elem();// :)
     pruebas_heap_destruir_NULL(); // :)
     pruebas_heap_destruir_NONULL(); // :)
-    pruebas_heap_volumen(100); // :)
-    pruebas_heap_volumen(10000); // :)
+    pruebas_heap_copiar_arreglo(); // :)
     */
-    pruebas_heap_copiar_arreglo(); // Ordenar arreglo
+    pruebas_heapsort(); // Ordenar arreglo    
 
     /*
-    pruebas_heapsort(); // Ordenar arreglo    
+    pruebas_heap_volumen(100); // :)
+    pruebas_heap_volumen(10000); // :)
     pruebas_upheap_downheap();
     */
 }
