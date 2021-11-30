@@ -87,13 +87,14 @@ void aux_upheap(void* arreglo[],size_t n, size_t pos_padre, size_t pos_inferior,
 
 
 void aux_downheap(void* arreglo[],size_t n, size_t pos_padre, cmp_func_t cmp){
-    printf("    Downheap: pos_padre %lu\n", pos_padre);
     size_t pos_hijo_izq = (2 * pos_padre) +1;
     size_t pos_hijo_der = (2 * pos_padre) +2;
+    if (pos_padre == 0) printf("ESTAMOS LLEGANDO A CERO, arreglo[0]: %i\n", *(int*)arreglo[0]);
 
     // Revisar que ambas las posiciones están en el arreglo
     if (pos_hijo_izq >= n){
         // Ninguno de los dos hijos está en el arreglo. Terminar downheap
+        printf("No hizo downheap con la pos %lu. Contenido: %i\n", pos_padre, *(int*)arreglo[pos_padre]);
         return;
     }
     // Revisar si DER está en el arreglo
@@ -123,9 +124,9 @@ void heapify(void* arreglo[], size_t cant, cmp_func_t cmp,size_t actual){ // REH
     for (int i = cant -1; i >= 0; i--){
         aux_downheap(arreglo, cant, i, cmp);
     }
-    for (size_t i = 0; i < cant; i++){
-        printf("    Heapify %d\n", *(int*)arreglo[i]);
-    }
+    // for (size_t i = 0; i < cant; i++){
+    //     printf("    Heapify %d\n", *(int*)arreglo[i]);
+    // }
 }
 
 
@@ -155,17 +156,13 @@ heap_t *heap_crear_arr(void* arreglo[], size_t n, cmp_func_t cmp){
     heap_t* nuevo_heap = malloc(sizeof(heap_t));
     if (nuevo_heap == NULL) return NULL;
 
-    for (int i = 0; i < n; i++){
-        //printf("C170 original arr[%i] = %i\n", i, *(int*)arreglo[i]);
-    }
-
     nuevo_heap->cmp = cmp;
     nuevo_heap->tam = CAP_INIC;
     nuevo_heap->datos = arreglo;
     nuevo_heap->cant = n;
     debug_heap(nuevo_heap);
     heapify(arreglo, n, cmp, 0); // ASEGURARSE QUE QUEDE ORDENADO DESPUES DE LLAMAR HEAPIFY
-    printf("---165\n");
+    printf("---165 INTENTÓ HEAPIFY\n");
     debug_heap(nuevo_heap);
     
     return nuevo_heap;
